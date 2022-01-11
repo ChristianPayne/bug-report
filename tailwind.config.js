@@ -7,10 +7,10 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
+      fontFamily : {
+        montserrat : "'Montserrat', sans"
+      },
       colors,
-      animation: {
-        spinslow: 'spin 20s linear infinite'
-      }
     },
   },
   plugins: [],
