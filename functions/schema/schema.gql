@@ -1,0 +1,8 @@
+type User {
+  username: String!
+  password: String!
+}
+
+type Query {
+   auth (username: String!): User,
+}

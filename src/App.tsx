@@ -3,24 +3,38 @@ import React, { FC, useState } from 'react'
 type Props = { }
 
 export const App: FC<Props> = () => {
-  const [input, setInput] = useState<string>('')
+  const [usernameInput, setUsernameInput] = useState<string>('')
+  const [passwordInput, setPasswordInput] = useState<string>('')
   const [loggedIn, setLoggedIn] = useState<boolean>(false)
 
   const handleInput = (event: React.KeyboardEvent): void => {
-    if (event.key === 'Enter') logIn(input)
+    if (event.key === 'Enter') logIn(usernameInput, passwordInput)
   }
 
-  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setInput(event.target.value)
+  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>, inputType: string): void => {
+    if(inputType === "username") {
+      setUsernameInput(event.target.value)
+    } else if (inputType === "password") {
+      setPasswordInput(event.target.value)
+    }
   }
 
-  const logIn = (password: string): void => {
-    fetch(`/api/auth?password=${password}`)
+  const logIn = (username: string, password: string): void => {
+    fetch('/api/auth', {
+      method: "GET",
+      headers: {"username": username, "password": password}
+    })
     .then(
       (res: any) => {
-        res.json().then((res: any) => setLoggedIn(true))
+        res.json().then((res: any) => {
+          console.log("Res:", res);
+          
+          setLoggedIn(true)
+        })
       }
-    )
+    ).catch((err)=>{
+      console.error("DA ERR", err)
+    })
   }
 
   return (
@@ -29,8 +43,14 @@ export const App: FC<Props> = () => {
         <h1 className="text-2xl mb-6 font-montserrat">Bug Report</h1>
         <input 
         onKeyUp={handleInput} 
-        onChange={handleChangeInput}
-        value={input}
+        onChange={ ($event)=> {handleChangeInput($event, "username")}}
+        value={usernameInput}
+        className="appearance-none bg-[#282c34] rounded-md border-slate-400 border-2 px-2 py-1" placeholder="Username" 
+        />
+        <input 
+        onKeyUp={handleInput} 
+        onChange={($event) => {handleChangeInput($event, "password")}}
+        value={passwordInput}
         type="password"
         className="appearance-none bg-[#282c34] rounded-md border-slate-400 border-2 px-2 py-1" placeholder="Password" 
         />
