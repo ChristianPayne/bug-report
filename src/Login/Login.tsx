@@ -7,7 +7,7 @@ export const Login: FC<Props> = () => {
   const [usernameInput, setUsernameInput] = useState<string>('')
   const [passwordInput, setPasswordInput] = useState<string>('')
   const [loginMessage, setLoginMessage] = useState<string>('')
-  const dispatch = useDispatch()
+  let dispatch = useDispatch()
 
   const setLogin = (value: boolean) => {
     dispatch({type: "LOGIN", payload: value})
@@ -24,6 +24,10 @@ export const Login: FC<Props> = () => {
       setPasswordInput(event.target.value)
     }
   }
+
+  useEffect(()=> {
+    return () => dispatch = null
+  },[])
 
   const logIn = (username: string, password: string): void => {
     fetch('/api/auth', {
