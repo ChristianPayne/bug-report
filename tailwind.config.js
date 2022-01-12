@@ -1,4 +1,4 @@
-const colors = require('tailwindcss/colors');
+const { zinc } = require('tailwindcss/colors');
 
 module.exports = {
   content: [
@@ -6,11 +6,13 @@ module.exports = {
   ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
+    colors: {
+      zinc,
+    },
     extend: {
       fontFamily : {
         montserrat : "'Montserrat', sans"
       },
-      colors,
     },
   },
   plugins: [],
