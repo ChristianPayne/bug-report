@@ -17,3 +17,7 @@ functions = "functions"
 [dev]
 autoLaunch = false
 command = "npm run dev"
+
+[functions]
+  directory = "functions/"
+  included_files = ["infrastructure/**/*"]

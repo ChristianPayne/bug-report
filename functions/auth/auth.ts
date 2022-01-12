@@ -1,41 +1,58 @@
 import { Handler } from '@netlify/functions';
-import { getAuth } from "../schema/fauna";
+import { getAuth } from "../../infrastructure/schema/fauna";
+import { check } from "../../infrastructure/utils/bcrypt";
 const handler: Handler = async (event) => {
-  try {
-    if(event.headers.username && event.headers.password) {
-      let username = event.headers.username;
-      let password = event.headers.password;
+  console.log("Start of lambda 'Auth.ts'");
 
-      await getAuth(username, password).then((res: Response) => {
-        console.log(res.auth.password === password);
-        
-        if(res.auth.password === password) {
-          return {
-            statusCode: 200,
-            body: JSON.stringify({
-              loggedIn : true
-            })
-          }
-        } else {
-          return {
-            statusCode: 403,
-            body: JSON.stringify({
-              loggedIn : false
-            })
-          }
-        }
-      })
-      
-    } else {
-      console.log("USERNAME OR PASSWORD NOT SUPPLIED");
-      
+  if(event.headers.username != "" || event.headers.password != "") {
+    let username = event.headers.username;
+    let password = event.headers.password;
+
+    console.info(">>> Auth.ts inputs: ", username, password)
+
+    // Use this for saving a new password.
+    // let hash = await encrypt(password)
+    // console.log(`Hash == ${hash}`)
+
+    
+    let res: AuthResponse = await getAuth(username)
+    console.log(">>> ", res);
+    
+    let authResult = await check(password, res.auth.password)
+    
+    if(authResult === true) {
       return {
-        statusCode: 403
+        statusCode: 200,
+        body: JSON.stringify({ 
+          loggedIn : true
+        })
+      }
+    } else {
+      return {
+        statusCode: 403,
+        body: JSON.stringify({
+          loggedIn : false,
+          message:"Username or password incorrect."
+        })
       }
     }
-  } catch (error: any) {
-    console.log("HULLO?", error)
-    return { statusCode: 500, body: JSON.stringify({message: error.toString()}) }
+  } else {
+    return {
+      statusCode: 400,
+      body: JSON.stringify(
+        {
+          loggedIn: false,
+          message: "Username or password malformed."
+        }
+      )
+    }
+  }
+}
+
+export type AuthResponse = {
+  auth: {
+    username: string,
+    password: string
   }
 }
 

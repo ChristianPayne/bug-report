@@ -10,6 +10,7 @@
     "dev": "concurrently -n \"⚡️vite,👹tsc\" -c \"cyan,yellow\" \"vite\" \"tsc -w\""
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "concurrently": "^6.5.0",
     "graphql-request": "^3.7.0",
     "react": "^17.0.2",
