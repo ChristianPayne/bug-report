@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { LoginState } from '../store/loginReducer';
+import { useDispatch } from 'react-redux';
 
 type Props = { }
 
@@ -8,13 +7,11 @@ export const Login: FC<Props> = () => {
   const [usernameInput, setUsernameInput] = useState<string>('')
   const [passwordInput, setPasswordInput] = useState<string>('')
   const [loginMessage, setLoginMessage] = useState<string>('')
-  const loggedIn = useSelector<LoginState, LoginState["loggedIn"]>((state) => state.loggedIn)
   const dispatch = useDispatch()
 
   const setLogin = (value: boolean) => {
     dispatch({type: "LOGIN", payload: value})
   }
-
 
   const handleInput = (event: React.KeyboardEvent): void => {
     if (event.key === 'Enter') logIn(usernameInput, passwordInput)
@@ -37,7 +34,7 @@ export const Login: FC<Props> = () => {
       (res: Response) => {
         res.json()
         .then((res) => {
-          console.log("Res:", res);
+          console.log("<<< Res:", res);
 
           if(res.loggedIn === true) {
             setLogin(true)
@@ -50,13 +47,13 @@ export const Login: FC<Props> = () => {
         })
       }
     ).catch((err)=>{
-      console.error(err)
+      console.error("Login Catch: ", err)
     })
   }
 
   return (
     <div className="text-center flex flex-col items-center justify-center h-full">
-      <header className="flex flex-col space-y-4 text-2xl min-w-1/2">
+      <header className="flex flex-col space-y-4 text-2xl min-w-1/2 mb-6">
         <h1 className="text-2xl mb-6 font-montserrat">Bug Report</h1>
         <input 
         onKeyUp={handleInput} 
@@ -71,11 +68,8 @@ export const Login: FC<Props> = () => {
         type="password"
         className="appearance-none bg-zinc-900 rounded-md border-zinc-400 border-2 px-2 py-1" placeholder="Password" 
         />
-        <p>{loginMessage}</p>
-        {
-          <p>{loggedIn ? "True" : "False"}</p>
-        }
       </header>
+      <p className={(loginMessage ? '': 'opacity-0') + " text-lg"}>{loginMessage ? loginMessage : "Please Login..."}</p>
     </div>
   )
 } 
