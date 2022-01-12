@@ -15,7 +15,7 @@ export const Login: FC<Props> = () => {
     dispatch({type: "LOGIN", payload: value})
     if(value === true) {
       console.log("Nav to home page");
-      navigate('/', {replace: true})
+      navigate('/reports', {replace: true})
     }
   }
 
