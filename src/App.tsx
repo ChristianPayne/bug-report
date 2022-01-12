@@ -15,12 +15,12 @@ export const App: FC<Props> = () => {
   useEffect(()=>{
     if(loggedIn === false) {
       console.log("Nav to login");
-      navigate('/login', {replace: true})
+      // navigate('/login', {replace: true})
     }
   },[loggedIn])
 
   return (
-    <div className='bg-zinc-900 text-zinc-100 h-screen font-mono'>
+    <div className='bg-zinc-900 text-zinc-100 h-screen font-mono py-6 scrollbar overflow-y-scroll'>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />

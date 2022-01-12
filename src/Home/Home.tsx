@@ -122,16 +122,20 @@ export const Home: FC<Props> = () => {
   } 
 
   return (
-    <div className='flex flex-col items-center justify-center space-x-6 space-y-6 overflow-y-scroll h-full scrollbar'>
+    <div className='flex flex-col h-fit'>
+      <h1 className='text-2xl font-montserrat text-center'>Reports</h1>
       {
         data.map((item, i)=>{
           return (
-            <button key={item.id + i} className='text-left border border-zinc-100 p-2 flex'
+            <button key={item.id + i} className='text-left border border-zinc-100 p-2 flex items-center my-3 mx-4 justify-between'
             onClick={()=>{entryClick(item.id)}}>
+              <p className='mr-2'>{(item.headache ? "" : "No ") + "Headache"}</p>
+              &#124;
               <p className='mr-2'>{item.id}</p>
+              &#124;
               <p className='mr-2'>{item.date.toDateString()}</p>
-              <p className='mr-2'>{item.title}</p>
-              <p className=''>{(item.headache ? "" : "No ") + "Headache"}</p>
+              &#124;
+              <p className=''>{item.title}</p>
             </button>
           )
           
