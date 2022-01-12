@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 type Props = { }
 
@@ -8,9 +9,14 @@ export const Login: FC<Props> = () => {
   const [passwordInput, setPasswordInput] = useState<string>('')
   const [loginMessage, setLoginMessage] = useState<string>('')
   let dispatch = useDispatch()
+  let navigate = useNavigate()
 
   const setLogin = (value: boolean) => {
     dispatch({type: "LOGIN", payload: value})
+    if(value === true) {
+      console.log("Nav to home page");
+      navigate('/', {replace: true})
+    }
   }
 
   const handleInput = (event: React.KeyboardEvent): void => {
