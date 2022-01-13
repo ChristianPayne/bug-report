@@ -39,20 +39,20 @@ type Report {
   userId: String!
   date: String!
   name: String
-  fields: [ReportField] @relation(name: "report_fields")
+  fields: [ReportField]
 }
 
 type ReportTemplate {
   id: String!
   userId: String!
   name: String!
-  fields: [ReportField] @relation(name: "report_template_fields")
+  fields: [ReportField]
 }
 
-type ReportField {
+type ReportField @embedded {
   id: String!
-  report: [Report] @relation(name: "report_fields")
-  reportTemplate: [ReportTemplate] @relation(name: "report_template_fields")
+  report: [Report]
+  reportTemplate: [ReportTemplate]
   type: String!
   name: String!
   value: String

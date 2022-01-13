@@ -10,10 +10,11 @@ const graphQLClient = new GraphQLClient(FAUNA_GRAPHQL_BASE_URL, {
 
 export async function getAuth(username: string) {  
   const query = gql`
-    query getAuth ($username: String!) {
-      auth (username: $username) {
-        username
-        password
+    query getUserByUsername ($username: String!) {
+      getUserByUsername (username: $username) {
+          id
+          username
+          password
       }
     }` 
   return await graphQLClient.request(query, {username})
