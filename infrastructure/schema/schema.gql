@@ -1,8 +1,59 @@
-type User {
-  username: String!
-  password: String!
+type Query {
+  # Users
+  getUserByUsername (username: String!) : User
+  getUserById (id: String!) : User
+  # Reports
+  getReportById (id: String!) : Report
+  getAllReportsByUser (id: String!) : [Report]
+  # Report Templates
+  getReportTemplateById (id: String!) : ReportTemplate
+  getAllReportTemplatesByUser (id: String!) : [ReportTemplate]
 }
 
-type Query {
-   auth (username: String!): User,
+type Mutation {
+  # Users
+  createUser (user: String!) : String @resolver
+  updateUser (id: String, user: String!) : User @resolver
+  deleteUser (id: String!) : Boolean @resolver
+  updatePassword (id: String!, password: String!) : Boolean @resolver
+  # Reports
+  createReport (id: String!, report: String!) : String @resolver
+  updateReport (id: String!, report: String!) : String @resolver
+  deleteReport (id: String!) : Boolean @resolver
+  # Report Templates
+  createReportTemplate (id: String, reportTemplate: String!) : String @resolver
+  updateReportTemplate (id: String!, reportTemplate: String!) : String @resolver
+  deleteReportTemplate (id: String!) : Boolean @resolver
+}
+
+type User {
+  id: String!
+  username: String!
+  password: String!
+  role: String!
+  requirePasswordReset: Boolean
+}
+
+type Report {
+  id: String!
+  userId: String!
+  date: String!
+  name: String
+  fields: [ReportField] @relation(name: "report_fields")
+}
+
+type ReportTemplate {
+  id: String!
+  userId: String!
+  name: String!
+  fields: [ReportField] @relation(name: "report_template_fields")
+}
+
+type ReportField {
+  id: String!
+  report: [Report] @relation(name: "report_fields")
+  reportTemplate: [ReportTemplate] @relation(name: "report_template_fields")
+  type: String!
+  name: String!
+  value: String
 }

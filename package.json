@@ -1,7 +1,7 @@
 {
-  "name": "react-vite-tailwind-netlify-starter",
+  "name": "bugreport",
   "version": "1.0.0",
-  "description": "A starting project using typescript, react, tailwindcss, netlify, and vite.",
+  "description": "Report on your day and track bugs in your life.",
   "main": "index.js",
   "scripts": {
     "build": "tsc && vite build",
@@ -17,7 +17,8 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
-    "redux": "^4.1.2"
+    "redux": "^4.1.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@netlify/functions": "^0.7.2",
@@ -42,12 +43,12 @@
     "tailwind",
     "tailwindcss",
     "vite",
-    "netlify"
+    "netlify",
+    "fauna"
   ],
-  "author": "Nick Graffis",
-  "license": "MIT",
+  "author": "Christian Payne",
   "bugs": {
-    "url": "https://github.com/nickgraffis/react-vite-tailwind-netlify-starter/issues"
+    "url": "https://github.com/ChristianPayne/bug-report/issues"
   },
-  "homepage": "https://github.com/nickgraffis/react-vite-tailwind-netlify-starter#readme"
+  "homepage": "https://bugreport.christianpayne.dev/"
 }
