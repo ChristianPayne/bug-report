@@ -1,6 +1,6 @@
+const bcrypt = require('bcryptjs');
 
 export async function encrypt (input: string): Promise<string> {
-  const bcrypt = require('bcrypt');
   const saltRounds = 5;
   // console.log(`>>> encrypt (${input})`);
   let hash: string = await bcrypt.hash(input, saltRounds)
@@ -13,7 +13,6 @@ export async function encrypt (input: string): Promise<string> {
 }
 
 export async function check (input: string, hash: string): Promise<boolean> {
-  const bcrypt = require('bcryptjs');
   // console.log(`>>> check (${input}, ${hash})`);
   
   let result: boolean = await bcrypt.compare(input, hash);
