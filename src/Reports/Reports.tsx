@@ -118,7 +118,8 @@ export const Reports: FC<Props> = () => {
   ]
 
   function entryClick (id: string) {
-    navigate(`report/${id}`)
+    // Append id onto the url
+    navigate(`${id}`)
   } 
 
   return (

@@ -1,8 +1,8 @@
 import { Handler } from '@netlify/functions';
 import { getAuth } from "../../infrastructure/schema/fauna";
-import { check, encrypt } from "../../infrastructure/utils/bcrypt";
+import { check } from "../../infrastructure/utils/bcrypt";
 const handler: Handler = async (event) => {
-  console.log("Start of lambda 'Auth.ts'");
+  console.log("Start of lambda Auth.ts");
   
   if((event.headers.username == "" || event.headers.username == null) || (event.headers.password == "" || event.headers.password == null)) {
     return {
@@ -15,20 +15,11 @@ const handler: Handler = async (event) => {
       )
     }
   }
-    
+
   let username = event.headers.username;
   let password = event.headers.password;
-
-  // console.info(">>> Auth.ts inputs: ", username, password)
-    
-  // Use this for saving a new password.
-  // let hash = await encrypt(password)
-  // console.log(`Hash == ${hash}`)
-
   
   let res: AuthResponse = await getAuth(username)
-  // console.log(">>> Fauna Res", res);
-
   if(res.getUserByUsername == null) {
     // console.log(">>> NULL");
     return {
@@ -39,8 +30,13 @@ const handler: Handler = async (event) => {
       })
     }
   }
-  
-  let authResult = await check(password, res.getUserByUsername.password)
+
+  let authResult = false;
+  try {    
+    authResult = await check(password, res.getUserByUsername.password)
+  } catch (err) {
+    console.log(err);
+  }
   
   if(authResult === true) {
     return {
@@ -49,14 +45,13 @@ const handler: Handler = async (event) => {
         loggedIn : true
       })
     }
-  } else {
-    return {
-      statusCode: 403,
-      body: JSON.stringify({
-        loggedIn : false,
-        message:"Username or password incorrect."
-      })
-    }
+  } 
+  return {
+    statusCode: 403,
+    body: JSON.stringify({
+      loggedIn : false,
+      message:"Username or password incorrect."
+    })
   }
 
 }
