@@ -12,6 +12,7 @@ export const Dashboard: FC<Props> = () => {
 
   return (
     <>
+      Loading...
     </>
   )
 }

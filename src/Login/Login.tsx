@@ -63,8 +63,8 @@ export const Login: FC<Props> = () => {
 
   return (
     <div className="text-center flex flex-col items-center justify-center h-full">
-      <header className="flex flex-col space-y-4 text-2xl min-w-1/2 mb-6">
-        <h1 className="text-2xl mb-6 font-montserrat">Bug Report</h1>
+      <header className="flex flex-col space-y-6 text-2xl min-w-1/2">
+        <h1 className="text-2xl font-montserrat">Bug Report</h1>
         <input 
         onKeyUp={handleInput} 
         onChange={ ($event)=> {handleChangeInput($event, "username")}}
@@ -78,8 +78,13 @@ export const Login: FC<Props> = () => {
         type="password"
         className="appearance-none bg-zinc-900 rounded-md border-zinc-400 border-2 px-2 py-1" placeholder="Password" 
         />
+        <div className='flex justify-evenly'>
+          <a href="/signup" className='font-montserrat text-sm border p-2 rounded-md border-zinc-400'>Sign Up</a>
+          <a onClick={()=> logIn(usernameInput, passwordInput)} 
+          className='font-montserrat text-sm cursor-pointer border p-2 rounded-md border-zinc-400'>Log In</a>
+        </div>
+        <p className={(loginMessage ? '': 'opacity-0') + " text-lg"}>{loginMessage ? loginMessage : "Please Login..."}</p>
       </header>
-      <p className={(loginMessage ? '': 'opacity-0') + " text-lg"}>{loginMessage ? loginMessage : "Please Login..."}</p>
     </div>
   )
 } 
