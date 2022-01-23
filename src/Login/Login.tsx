@@ -11,10 +11,14 @@ export const Login: FC<Props> = () => {
   let dispatch = useDispatch()
   let navigate = useNavigate()
 
-  const setLogin = (value: boolean) => {
+  const setLogin = (value: boolean, id: string = null) => {
     dispatch({type: "LOGIN", payload: value})
     if(value === true) {
-      console.log("Nav to home page");
+      if (id) {
+        console.log("Saving login info.");
+        localStorage.setItem("id", id);
+        dispatch({type: "SET_ID", payload: id})
+      }
       navigate('/reports', {replace: true})
     }
   }
@@ -32,6 +36,8 @@ export const Login: FC<Props> = () => {
   }
 
   useEffect(()=> {
+    let previousLoginId = localStorage.getItem("id")
+    if(previousLoginId) setLogin(true)
     return () => dispatch = null
   },[])
 
@@ -47,7 +53,7 @@ export const Login: FC<Props> = () => {
           console.log("<<< Res:", res);
 
           if(res.loggedIn === true) {
-            setLogin(true)
+            setLogin(true, res.id)
             setLoginMessage("Logged In!")
           } else {
             setLogin(false)

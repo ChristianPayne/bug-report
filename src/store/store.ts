@@ -1,4 +1,15 @@
-import { createStore } from "redux";
-import { loginReducer } from "./loginReducer";
+import { combineReducers, createStore } from "redux";
+import { authReducer, AuthState } from "./authReducer";
+import { reportReducer, ReportState } from "./reportReducer";
 
-export const store = createStore(loginReducer)
+export type RootState = {
+  auth: AuthState,
+  reports: ReportState
+}
+
+let rootReducer = combineReducers({
+  auth: authReducer,
+  reports: reportReducer
+})
+
+export const store = createStore(rootReducer)

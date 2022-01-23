@@ -1,3 +1,5 @@
+.faunarc
+
 # Logs
 logs
 *.log

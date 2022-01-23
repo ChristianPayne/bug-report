@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react'
 import { Login } from "./Login";
 import { useSelector } from 'react-redux';
-import { LoginState } from './store/loginReducer';
+import { AuthState } from './store/authReducer';
 import { Route, Routes, useNavigate} from 'react-router-dom';
 import { Reports } from './Reports/Reports';
 import { Dashboard } from './Dashboard/Dashboard';
@@ -9,9 +9,9 @@ import { Dashboard } from './Dashboard/Dashboard';
 type Props = { }
 
 export const App: FC<Props> = () => {
-  const loggedIn = useSelector<LoginState, LoginState["loggedIn"]>((state) => state.loggedIn)
+  const loggedIn = useSelector<AuthState, AuthState["loggedIn"]>((state) => state.loggedIn)
+
   let navigate = useNavigate();
-  
 
   useEffect(()=>{
     if(loggedIn === false) {

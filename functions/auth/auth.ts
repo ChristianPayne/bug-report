@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions';
-import { getAuth } from "../../infrastructure/schema/fauna";
+import { getUserByUsername } from "../../infrastructure/schema/fauna";
 import { check } from "../../infrastructure/utils/bcrypt";
 const handler: Handler = async (event) => {
   console.log("Start of lambda Auth.ts");
@@ -19,8 +19,8 @@ const handler: Handler = async (event) => {
   let username = event.headers.username;
   let password = event.headers.password;
   
-  let res: AuthResponse = await getAuth(username)
-  if(res.getUserByUsername == null) {
+  let response: AuthResponse = await getUserByUsername(username)
+  if(response.getUserByUsername == null) {
     // console.log(">>> NULL");
     return {
       statusCode: 404,
@@ -33,7 +33,7 @@ const handler: Handler = async (event) => {
 
   let authResult = false;
   try {    
-    authResult = await check(password, res.getUserByUsername.password)
+    authResult = await check(password, response.getUserByUsername.password)
   } catch (err) {
     console.log(err);
   }
@@ -42,6 +42,7 @@ const handler: Handler = async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ 
+        id: response.getUserByUsername.id,
         loggedIn : true
       })
     }

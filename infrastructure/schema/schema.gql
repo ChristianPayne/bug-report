@@ -4,7 +4,7 @@ type Query {
   getUserById (id: String!) : User
   # Reports
   getReportById (id: String!) : Report
-  getAllReportsByUser (id: String!) : [Report]
+  getAllReportsByUserId (userId: String!) : [Report]
   # Report Templates
   getReportTemplateById (id: String!) : ReportTemplate
   getAllReportTemplatesByUser (id: String!) : [ReportTemplate]
@@ -51,8 +51,6 @@ type ReportTemplate {
 
 type ReportField @embedded {
   id: String!
-  report: [Report]
-  reportTemplate: [ReportTemplate]
   type: String!
   name: String!
   value: String
