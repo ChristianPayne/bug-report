@@ -18,7 +18,9 @@ export const Reports: FC<Props> = () => {
       method: "GET",
       headers: {userId: "123"}
     }).then(result => {
-      console.log(result);
+      result.json().then(data => {
+        console.log(data);
+      })
     })
     // Update the store with the reports
     dispatch({

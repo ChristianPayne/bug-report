@@ -9,9 +9,7 @@ const handler: Handler = async (event) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify({
-      response: "Good"
-    })
+    body: JSON.stringify(res)
   }
   
 }

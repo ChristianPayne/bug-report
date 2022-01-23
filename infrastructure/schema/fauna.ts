@@ -24,7 +24,10 @@ export async function getAllReportsByUserId(userId: string) {
   const query = gql`
     query getAllReportsByUserId ($userId: String!) {
       getAllReportsByUserId (userId: $userId) {
-        id
+        data {
+          id
+          name
+        }
       }
     }` 
   return await graphQLClient.request(query, {userId})
