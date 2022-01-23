@@ -27,6 +27,7 @@ export async function getAllReportsByUserId(userId: string) {
         data {
           id
           name
+          userId
         }
       }
     }` 

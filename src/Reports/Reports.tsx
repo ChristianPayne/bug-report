@@ -12,6 +12,9 @@ export const Reports: FC<Props> = () => {
 
   const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
 
+  console.log('Reports:', reports);
+  
+
   useEffect(()=>{
     // Call the backend to get reports, passing our id
     fetch('/api/getReports', {
@@ -20,12 +23,12 @@ export const Reports: FC<Props> = () => {
     }).then(result => {
       result.json().then(data => {
         console.log(data);
+        // Update the store with the reports
+        dispatch({
+          type: "ADD_REPORTS",
+          payload: data
+        })
       })
-    })
-    // Update the store with the reports
-    dispatch({
-      type: "ADD_REPORT",
-      payload: "ADD REPORT HERE FROM BACKEND"
     })
   },[])
 
@@ -42,10 +45,18 @@ export const Reports: FC<Props> = () => {
           return (
             <button key={item.id + i} className='text-left border border-zinc-100 p-2 flex items-center my-3 mx-4 justify-between md:justify-evenly'
             onClick={()=>{entryClick(item.id)}}>
-              <p className='mr-2'>{item.id}</p>
-              &#124;
-              <p className='mr-2'>{item.date}</p>
-              &#124;
+              {
+                Object.keys(item).map((key,i)=>{
+                  return(
+                    <>
+                      <div key={`${item}|${key}|${i}`} className='flex justify-center w-full'>
+                        <p>{item[key]}</p>
+                      </div>
+                      {i == Object.keys(item).length - 1 ? <></> : <>&#124;</>}
+                    </>
+                  )
+                })
+              }
             </button>
           )
         })
