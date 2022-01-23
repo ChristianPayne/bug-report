@@ -11,7 +11,7 @@ export const Reports: FC<Props> = () => {
   let dispatch = useDispatch()
 
   let reportFieldsToShow = [
-    "id", "name"
+    "id","name","userId"
   ]
 
   const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)

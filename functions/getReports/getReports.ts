@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions';
-import { getAllReportsByUserId } from "../../infrastructure/schema/fauna";
+import { getAllReportsByUserId } from "../../infrastructure/fauna-queries/fauna";
 const handler: Handler = async (event) => {
   console.log("Start of lambda getReports.ts");  
 
@@ -28,7 +28,7 @@ const handler: Handler = async (event) => {
     }
   }
 
-  console.log(response.getAllReportsByUserId.data);
+  // console.log(response.getAllReportsByUserId.data);
 
   return {
     statusCode: 200,

@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions';
-import { getUserByUsername } from "../../infrastructure/schema/fauna";
+import { getUserByUsername } from "../../infrastructure/fauna-queries/fauna";
 import { check } from "../../infrastructure/utils/bcrypt";
 const handler: Handler = async (event) => {
   console.log("Start of lambda Auth.ts");

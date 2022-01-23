@@ -3,8 +3,8 @@ import { Login } from "./Login";
 import { useSelector } from 'react-redux';
 import { AuthState } from './store/authReducer';
 import { Route, Routes, useNavigate} from 'react-router-dom';
-import { Reports } from './Reports/Reports';
-import { Dashboard } from './Dashboard/Dashboard';
+import { Reports } from './Reports';
+import { Dashboard } from './Dashboard';
 
 type Props = { }
 
