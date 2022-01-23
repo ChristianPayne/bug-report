@@ -36,6 +36,10 @@ export const reportReducer = (state: ReportState = initialState, action: Action)
       return {
         reports: [...state.reports, ...action.payload]
       }
+    case "CLEAR_REPORTS":
+      return {
+        reports: []
+      }
     default:
       return state
   }

@@ -10,12 +10,20 @@ export const Reports: FC<Props> = () => {
   let navigate = useNavigate()
   let dispatch = useDispatch()
 
+  let reportFieldsToShow = [
+    "id", "name"
+  ]
+
   const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
 
   console.log('Reports:', reports);
   
 
   useEffect(()=>{
+    // Clear reports before pulling again.
+    dispatch({
+      type: "CLEAR_REPORTS"
+    })
     // Call the backend to get reports, passing our id
     fetch('/api/getReports', {
       method: "GET",
@@ -46,13 +54,13 @@ export const Reports: FC<Props> = () => {
             <button key={item.id + i} className='text-left border border-zinc-100 p-2 flex items-center my-3 mx-4 justify-between md:justify-evenly'
             onClick={()=>{entryClick(item.id)}}>
               {
-                Object.keys(item).map((key,i)=>{
+                reportFieldsToShow.map((key,i)=>{
                   return(
                     <>
                       <div key={`${item}|${key}|${i}`} className='flex justify-center w-full'>
                         <p>{item[key]}</p>
                       </div>
-                      {i == Object.keys(item).length - 1 ? <></> : <>&#124;</>}
+                      {i == reportFieldsToShow.length - 1 ? <></> : <>&#124;</>}
                     </>
                   )
                 })
