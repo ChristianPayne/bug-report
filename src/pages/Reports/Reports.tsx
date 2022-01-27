@@ -17,14 +17,6 @@ export const Reports: FC<Props> = () => {
     "id","name","userId"
   ]
   const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
-
-  // Set Page title
-  useEffect(()=>{
-    dispatch({
-      type: "SET_PAGE",
-      payload: "Reports"
-    })
-  },[])
   
   // Get Reports after user has been retrieved.
   useEffect(()=>{
@@ -59,7 +51,7 @@ export const Reports: FC<Props> = () => {
 
   return (
     <div className='flex flex-col h-fit text-center'>
-      <Title />
+      <Title title="Reports"/>
       {
         !isLoading && (
           reports.map((item, i)=>{

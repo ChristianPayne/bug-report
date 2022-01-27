@@ -4,7 +4,7 @@ import { AppState, useAuth0 } from '@auth0/auth0-react';
 
 // Components
 import { Title } from "./components/Title";
-import { SideBar } from "./components/SideBar";
+import { Sidebar } from "./components/Sidebar";
 
 // Pages
 import { Login } from "./pages/Login";
@@ -33,9 +33,9 @@ export const App: FC<Props> = () => {
   },[isLoading])
 
   return (
-    <div className='bg-zinc-900 text-zinc-100 h-screen font-mono overflow-y-scroll'>
-      {isAuthenticated && <SideBar />}
-      <div className="p-6 scrollbar h-full">
+    <div className='bg-zinc-900 text-zinc-100 h-screen font-mono overflow-y-scroll scrollbar'>
+      {isAuthenticated && <Sidebar />}
+      <div className="p-6 h-full">
         <div className="flex h-full relative">
           <div className="grow">
             <Routes>

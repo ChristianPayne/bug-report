@@ -7,7 +7,7 @@ import { RootState } from '../../store/store'
 
 type Props = { }
 
-export const SideBar: FC<Props> = () => {
+export const Sidebar: FC<Props> = () => {
   let dispatch = useDispatch()
   let navigate = useNavigate()
   let {isAuthenticated, logout, user} = useAuth0();
@@ -33,6 +33,7 @@ export const SideBar: FC<Props> = () => {
           <button className="text-2xl font-montserrat mb-4" onClick={()=>linkClick("/reports")}>Bug Report</button>
           <button className="mb-2 p-2" onClick={()=>linkClick("/reports")}>Reports</button>
           <button className="mb-2 p-2" onClick={()=>linkClick("/templates")}>Templates</button>
+          <button className="mb-2 button" onClick={()=>linkClick("/reports/new")}>New Report</button>
           <div className="grow"></div>
           {/* Log Out Button */}
           {isAuthenticated &&

@@ -16,17 +16,10 @@ export const Templates: FC<Props> = () => {
   let {isAuthenticated, logout, user} = useAuth0();
 
   const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
-
-  useEffect(()=>{
-    dispatch({
-      type: "SET_PAGE",
-      payload: "Templates"
-    })
-  },[])
   
   return (
     <>
-      <Title />
+      <Title title="Templates"/>
       <p>
         Templates is working...
       </p>

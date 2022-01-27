@@ -1,14 +1,21 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../../store/appReducer'
 import { RootState } from '../../store/store'
 
-type Props = { }
+type Props = { title: string }
 
-export const Title: FC<Props> = () => {
+export const Title: FC<Props> = (props: Props) => {
   let dispatch = useDispatch()
   let pageTitle = useSelector<RootState, AppState["page"]>((state)=> state.app.page)
   let isSidebarOpen = useSelector<RootState, AppState["isSidebarOpen"]>((state)=> state.app.isSidebarOpen)
+
+  useEffect(()=>{
+    dispatch({
+      type: "SET_PAGE",
+      payload: props.title
+    })
+  },[])
 
   function toggleSidebar () {
     dispatch({
