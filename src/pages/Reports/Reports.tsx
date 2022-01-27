@@ -51,7 +51,7 @@ export const Reports: FC<Props> = () => {
   return (
     <div className='flex flex-col h-fit text-center'>
       <div className='grid grid-flow-col grid-cols-3 mx-4 items-center'>
-        <button className="button sm:w-1/3 place-self-start">New Report</button>
+        <button className="button sm:w-1/3 place-self-start" onClick={()=> navigate('new')}>New Report</button>
         <h1 className='col-start-2 text-2xl font-montserrat text-center'>Reports</h1>
         {isAuthenticated &&
           <button className='button col-start-3 sm:w-1/3 place-self-end' onClick={() => logout({ returnTo: window.location.origin })}>
