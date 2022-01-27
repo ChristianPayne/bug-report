@@ -1,24 +1,26 @@
 import React, { FC, useEffect } from 'react'
-import { Login } from "./Login";
-import { useSelector } from 'react-redux';
-import { AuthState } from './store/authReducer';
+import { Login } from "./pages/Login";
 import { Route, Routes, useNavigate} from 'react-router-dom';
-import { Reports } from './Reports';
-import { Dashboard } from './Dashboard';
+import { Reports } from './pages/Reports';
+import { Dashboard } from './pages/Dashboard';
+import { useAuth0 } from '@auth0/auth0-react';
 
 type Props = { }
 
 export const App: FC<Props> = () => {
-  const loggedIn = useSelector<AuthState, AuthState["loggedIn"]>((state) => state.loggedIn)
-
+  let {isLoading, isAuthenticated, user} = useAuth0()
   let navigate = useNavigate();
 
   useEffect(()=>{
-    if(loggedIn === false) {
-      console.log("Nav to login");
-      navigate('/login', {replace: true})
+    if(!isLoading) {
+      if(isAuthenticated === false) {
+        console.error("Authentication error, redirecting...");
+        navigate('/login', {replace: true})
+      } else {
+        console.log(`Authenticated as ${user.nickname}`);
+      }
     }
-  },[loggedIn])
+  },[isLoading])
 
   return (
     <div className='bg-zinc-900 text-zinc-100 h-screen font-mono py-6 scrollbar overflow-y-scroll'>

@@ -7,7 +7,7 @@ export const Dashboard: FC<Props> = () => {
   let navigate = useNavigate()
 
   useEffect(()=>{
-    navigate('/reports')
+    navigate('/login')
   },[])
 
   return (

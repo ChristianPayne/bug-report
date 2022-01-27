@@ -20,3 +20,9 @@
     background: #3f3f46;
   }
 }
+
+@layer components {
+  .button {
+    @apply appearance-none bg-zinc-900 rounded-md border-zinc-400 border-2 px-2 py-1
+  }
+}

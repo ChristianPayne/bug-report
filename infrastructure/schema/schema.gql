@@ -15,7 +15,6 @@ type Mutation {
   createUser (user: String!) : String @resolver
   updateUser (id: String, user: String!) : User @resolver
   deleteUser (id: String!) : Boolean @resolver
-  updatePassword (id: String!, password: String!) : Boolean @resolver
   # Reports
   createReport (id: String!, report: String!) : String @resolver
   updateReport (id: String!, report: String!) : String @resolver
@@ -28,10 +27,7 @@ type Mutation {
 
 type User {
   id: String!
-  username: String!
-  password: String!
-  role: String!
-  requirePasswordReset: Boolean
+  role: String
 }
 
 type Report {

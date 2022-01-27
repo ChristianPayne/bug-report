@@ -10,6 +10,7 @@
     "dev": "concurrently -n \"⚡️vite,👹tsc\" -c \"cyan,yellow\" \"vite --host\" \"tsc -w\""
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.9.0",
     "bcryptjs": "^2.4.3",
     "concurrently": "^6.5.0",
     "graphql": "^16.2.0",
