@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import React, { FC, Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { Title } from '../../components/Title'
 import { ReportState } from '../../store/reportReducer'
 import { RootState } from '../../store/store'
 
@@ -16,6 +17,14 @@ export const Reports: FC<Props> = () => {
     "id","name","userId"
   ]
   const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
+
+  // Set Page title
+  useEffect(()=>{
+    dispatch({
+      type: "SET_PAGE",
+      payload: "Reports"
+    })
+  },[])
   
   // Get Reports after user has been retrieved.
   useEffect(()=>{
@@ -50,16 +59,12 @@ export const Reports: FC<Props> = () => {
 
   return (
     <div className='flex flex-col h-fit text-center'>
-      <div className='grid grid-flow-col grid-cols-3 mx-4 items-center'>
-        {/* <button className="button sm:w-1/3 place-self-start" onClick={()=> navigate('new')}>New Report</button> */}
-        <h1 className='col-start-2 text-2xl font-montserrat text-center'>Reports</h1>
-      </div>
-
+      <Title />
       {
         !isLoading && (
           reports.map((item, i)=>{
             return (
-              <button key={item.id + i} className='text-left border border-zinc-100 p-2 overflow-auto sm:flex items-center mt-3 mx-4 justify-between md:justify-evenly rounded-md'
+              <button key={item.id + i} className='text-left border border-zinc-100 p-2 overflow-auto sm:flex items-center mt-3 justify-between md:justify-evenly rounded-md'
               onClick={()=>{entryClick(item.id)}}>
                 {
                   reportFieldsToShow.map((key,i)=>{

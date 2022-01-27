@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { ReportState } from '../../store/reportReducer'
 import { RootState } from '../../store/store'
 
+import { Title } from "../../components/Title";
+
 type Props = { }
 
 export const Templates: FC<Props> = () => {
@@ -14,6 +16,20 @@ export const Templates: FC<Props> = () => {
   let {isAuthenticated, logout, user} = useAuth0();
 
   const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
+
+  useEffect(()=>{
+    dispatch({
+      type: "SET_PAGE",
+      payload: "Templates"
+    })
+  },[])
   
-  return <>Templates is working...</>
+  return (
+    <>
+      <Title />
+      <p>
+        Templates is working...
+      </p>
+    </>
+  )
 }

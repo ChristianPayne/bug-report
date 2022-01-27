@@ -1,32 +1,47 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import React, { FC, Fragment, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ReportState } from '../../store/reportReducer'
+import { Link, useNavigate } from 'react-router-dom'
+import { AppState } from '../../store/appReducer'
 import { RootState } from '../../store/store'
 
 type Props = { }
 
 export const SideBar: FC<Props> = () => {
-  let navigate = useNavigate()
   let dispatch = useDispatch()
-  let [isLoading, setIsLoading] = useState(true)
+  let navigate = useNavigate()
   let {isAuthenticated, logout, user} = useAuth0();
+  let isSidebarOpen = useSelector<RootState, AppState["isSidebarOpen"]>((state)=> state.app.isSidebarOpen)
 
-  const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
-  
+  function toggleSidebar () {
+    dispatch({
+      type: "TOGGLE_SIDEBAR"
+    })
+  }
+
+  function linkClick (link: string) {
+    toggleSidebar()
+    navigate(link)
+  }
   return (
-    <div className="flex flex-col px-4 min-h-full text-center">
-      <h1 className="text-2xl font-montserrat mb-4">Bug Report</h1>
-      <Link className="mb-2" to={'/reports'}>Reports</Link>
-      <Link className="mb-2" to={'/templates'}>Templates</Link>
-      <div className="grow"></div>
-      {/* Log Out Button */}
-      {isAuthenticated &&
-      <button className='button' onClick={() => logout({ returnTo: window.location.origin })}>
-        Log Out
-      </button>}
-      <p className="text-xs mt-2">Designed by <a href="https://github.com/ChristianPayne">Christian Payne</a></p>
-    </div>
+    <>
+      {/* Hidden close button */}
+      <div className={`absolute z-10 inset-0 ${isSidebarOpen ? "" : "hidden"}`} onClick={toggleSidebar}></div>
+      {/* Sidebar */}
+      <div className={`absolute z-20 min-w-[240px] h-full min-h-full py-6 border-r-2 bg-zinc-900 transition ease-in-out ${isSidebarOpen ? "" : "-translate-x-full opacity-0"}`}>
+        <div className="flex flex-col px-4 h-full text-center text-md">
+          <h1 className="text-2xl font-montserrat mb-4" onClick={()=>linkClick("/reports")}>Bug Report</h1>
+          <a className="mb-2 p-2" onClick={()=>linkClick("/reports")}>Reports</a>
+          <a className="mb-2 p-2" onClick={()=>linkClick("/templates")}>Templates</a>
+          <div className="grow"></div>
+          {/* Log Out Button */}
+          {isAuthenticated &&
+          <button className='button' onClick={() => logout({ returnTo: window.location.origin })}>
+            Log Out
+          </button>}
+          <p className="text-xs mt-2">Designed by <a href="https://github.com/ChristianPayne">Christian Payne</a></p>
+        </div>
+      </div>
+    </>
   )
 }
