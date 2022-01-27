@@ -30,16 +30,16 @@ export const SideBar: FC<Props> = () => {
       {/* Sidebar */}
       <div className={`absolute z-20 min-w-[240px] h-full min-h-full py-6 border-r-2 bg-zinc-900 transition ease-in-out ${isSidebarOpen ? "" : "-translate-x-full opacity-0"}`}>
         <div className="flex flex-col px-4 h-full text-center text-md">
-          <h1 className="text-2xl font-montserrat mb-4" onClick={()=>linkClick("/reports")}>Bug Report</h1>
-          <a className="mb-2 p-2" onClick={()=>linkClick("/reports")}>Reports</a>
-          <a className="mb-2 p-2" onClick={()=>linkClick("/templates")}>Templates</a>
+          <button className="text-2xl font-montserrat mb-4" onClick={()=>linkClick("/reports")}>Bug Report</button>
+          <button className="mb-2 p-2" onClick={()=>linkClick("/reports")}>Reports</button>
+          <button className="mb-2 p-2" onClick={()=>linkClick("/templates")}>Templates</button>
           <div className="grow"></div>
           {/* Log Out Button */}
           {isAuthenticated &&
           <button className='button' onClick={() => logout({ returnTo: window.location.origin })}>
             Log Out
           </button>}
-          <p className="text-xs mt-2">Designed by <a href="https://github.com/ChristianPayne">Christian Payne</a></p>
+          <p className="text-xs mt-2">Designed by <a href="https://github.com/ChristianPayne" target="_blank">Christian Payne</a></p>
         </div>
       </div>
     </>
