@@ -5,7 +5,7 @@
 
 @layer utilities {
   .scrollbar::-webkit-scrollbar {
-    width: 10px;
+    @apply absolute right-0 hidden sm:block sm:max-w-[10px];
   }
 
   .scrollbar::-webkit-scrollbar-track {

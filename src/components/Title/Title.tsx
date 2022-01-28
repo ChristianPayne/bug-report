@@ -23,11 +23,12 @@ export const Title: FC<Props> = (props: Props) => {
     })
   }
   return (
-    <div className='grid grid-flow-col grid-cols-3 items-center mb-4'>
-      <button className="button place-self-start" onClick={toggleSidebar}>
+    <div className='flex justify-between items-center mb-4'>
+      <button className="flex-none button w-16 text-zinc-400" onClick={toggleSidebar}>
         {isSidebarOpen ? <>&lt;&lt;&lt;</> : <>&gt;&gt;&gt;</>}
       </button>
-      <h1 className='col-start-2 text-2xl font-montserrat text-center'>{pageTitle}</h1>
+      <h1 className='grow text-xl sm:text-2xl font-montserrat text-center'>{pageTitle}</h1>
+      <div className="flex-none w-16"></div>
     </div>
   )
 }
