@@ -18,75 +18,45 @@ export const NewReport: FC<Props> = () => {
   let { user } = useAuth0();
   
   // Get all templates from db
-  let [templates, setTemplates] = useState(
-    [
-      {
-        name: "Option 1",
-        id: "123123123",
-        fields: []
-      },
-      {
-        name: "skldjfhaskjdfhkalsdhfklajshdkfahsdkfjhaskdlfjhaskjldfhklajsdhfkl",
-        id: "02374982374",
-        fields: [
-          {
-            id: "123456",
-            type: "string",
-            name: "Text Box",
-            value: "",
-          },
-          {
-            id: "123456",
-            type: "string",
-            name: "Text Box 2",
-            value: "",
-          }, 
-          {
-            id:"123123",
-            type: 'switch',
-            name: "Switch",
-            value: false
-          }
-        ]
-      },
-      {
-        name: "Option 3",
-        id: "32452345",
-        fields: []
-      },
-    ]
-  )
+  let [templates, setTemplates] = useState([])
   
 
 
   // const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
 
 
-  const [selectedTemplate, setSelectedTemplate] = useState(templates[1])
+  const [selectedTemplate, setSelectedTemplate] = useState({name: "Choose Template", fields: []})
 
+  useEffect(()=>{
+    loadTemplates()
+  },[])
+  
+  function loadTemplates () {
+
+  }
+
+  function saveNewReport () {
+
+  }
 
   function setTemplate (template) {
     setSelectedTemplate(template);
     console.log(template);
   }
 
-  function handleFieldValues (field, value) {
-    selectedTemplate[field].value = value
-    
-    setSelectedTemplate(
-      selectedTemplate
-    )
-  
-    console.log(selectedTemplate);
+  function handleFieldValues (value: any, index) {
+    let newTemplate = Object.assign({}, selectedTemplate);
+    newTemplate.fields[index].value = value;
+    setSelectedTemplate(newTemplate)
   }
 
-  function getFieldContent (field) {
+  function getFieldContent (field, index) {
     switch (field.type) {
       case "string":
         return (
           <div className="flex text-md mt-4">
             <p className="w-32 mr-4">{field.name}</p>
-            <textarea className="grow bg-zinc-900 border rounded-md border-zinc-400 px-2 scrollbar" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(field, event.target.value)}} />
+            <textarea className="grow bg-zinc-900 border rounded-md border-zinc-400 px-2 scrollbar" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(event.target.value, index)}} />
           </div>
         )
       case 'switch':
@@ -95,19 +65,11 @@ export const NewReport: FC<Props> = () => {
             <p className="w-32 mr-4">{field.name}</p>
             <Switch
               checked={field.value}
-              onChange={(value) => handleFieldValues(field, value)}
+              onChange={(value: boolean) => {handleFieldValues(value, index)}}
               className={`bg-zinc-100 inline-flex items-center h-6 rounded-full w-11`}>
                 <span
-                  /* Transition the Switch's knob on state change */
-                  className={`transform transition ease-in-out duration-200
-                    ${field.value ? "translate-x-9" : "translate-x-0"}
-                  `}
+                  className={`${field.value ? 'translate-x-6' : 'translate-x-1'} inline-block w-4 h-4 transform bg-zinc-800 rounded-full transition-transform`}
                 />
-                <span
-                className={`${
-                  field.value ? 'translate-x-6' : 'translate-x-1'
-                } inline-block w-4 h-4 transform bg-zinc-800 rounded-full transition-transform`}
-              />
             </Switch>
           </div>
         )
@@ -161,7 +123,7 @@ export const NewReport: FC<Props> = () => {
         {/* Report Fields */}
         {
           selectedTemplate.fields.map((field, i)=>{
-            let fieldContent = getFieldContent (field)
+            let fieldContent = getFieldContent (field, i)
             return (
               <Fragment key={i}>
                 {/* <div className="flex-none w-full border-b mt-4 border-zinc-400"></div> */}
