@@ -21,3 +21,23 @@ export async function getAllReportsByUserId(userId: string) {
     }` 
   return await graphQLClient.request(query, {userId})
 }
+
+export async function getAllReportTemplatesByUserId(userId: string) {    
+  const query = gql`
+    query getAllReportTemplatesByUserId ($userId: String!) {
+      getAllReportTemplatesByUserId (userId: $userId) {
+        data {
+          id
+          userId
+          name
+          fields {
+            id
+            type
+            name
+            value
+          }
+        }
+      }
+    }` 
+  return await graphQLClient.request(query, {userId})
+}

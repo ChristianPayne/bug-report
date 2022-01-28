@@ -28,11 +28,21 @@ export const NewReport: FC<Props> = () => {
   const [selectedTemplate, setSelectedTemplate] = useState({name: "Choose Template", fields: []})
 
   useEffect(()=>{
-    loadTemplates()
-  },[])
+    if(user) {
+      loadTemplates()
+    }
+  },[user])
   
   function loadTemplates () {
-
+    fetch('/api/getTemplates', {
+      method: "GET",
+      headers: {userId: user?.sub}
+    }).then(result => {
+      result.json().then(data => {
+        console.log(data);
+        setTemplates(data)
+      })
+    })
   }
 
   function saveNewReport () {
@@ -56,7 +66,7 @@ export const NewReport: FC<Props> = () => {
         return (
           <div className="flex text-md mt-4">
             <p className="w-32 mr-4">{field.name}</p>
-            <textarea className="grow bg-zinc-900 border rounded-md border-zinc-400 px-2 scrollbar" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(event.target.value, index)}} />
+            <textarea className="grow bg-zinc-900 border rounded-md border-zinc-400 px-2 scrollbar" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(event.target.value, index)}} value={field.value}/>
           </div>
         )
       case 'switch':

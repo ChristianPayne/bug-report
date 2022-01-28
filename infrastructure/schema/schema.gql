@@ -1,13 +1,12 @@
 type Query {
   # Users
-  getUserByUsername (username: String!) : User
-  getUserById (id: String!) : User
+  getUserByUserId (id: String!) : User
   # Reports
   getReportById (id: String!) : Report
   getAllReportsByUserId (userId: String!) : [Report]
   # Report Templates
   getReportTemplateById (id: String!) : ReportTemplate
-  getAllReportTemplatesByUser (id: String!) : [ReportTemplate]
+  getAllReportTemplatesByUserId (userId: String!) : [ReportTemplate]
 }
 
 type Mutation {
