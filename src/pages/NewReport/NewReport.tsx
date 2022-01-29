@@ -64,24 +64,28 @@ export const NewReport: FC<Props> = () => {
     switch (field.type) {
       case "string":
         return (
-          <div className="flex text-md mt-4">
-            <p className="w-32 mr-4">{field.name}</p>
-            <textarea className="grow bg-zinc-900 border rounded-md border-zinc-400 px-2 scrollbar" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(event.target.value, index)}} value={field.value}/>
-          </div>
+          [
+            // Index 0 is the name
+            <p className="">{field.name}</p>,
+            // Index 1 is the content
+            <textarea className="bg-zinc-900 border rounded-md border-zinc-400 scrollbar" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(event.target.value, index)}} value={field.value}/>
+          ]
         )
       case 'switch':
         return (
-          <div className="flex text-md mt-4">
-            <p className="w-32 mr-4">{field.name}</p>
+          [
+            // Index 0 is the name
+            <p className="">{field.name}</p>,
+            // Index 1 is the content
             <Switch
-              checked={field.value}
-              onChange={(value: boolean) => {handleFieldValues(value, index)}}
-              className={`bg-zinc-100 inline-flex items-center h-6 rounded-full w-11`}>
+            checked={field.value}
+            onChange={(value: boolean) => {handleFieldValues(value, index)}}
+            className={`bg-zinc-100 inline-flex items-center h-6 rounded-full w-11`}>
                 <span
                   className={`${field.value ? 'translate-x-6' : 'translate-x-1'} inline-block w-4 h-4 transform bg-zinc-800 rounded-full transition-transform`}
                 />
             </Switch>
-          </div>
+          ]
         )
       default:
         return <></>
@@ -135,10 +139,10 @@ export const NewReport: FC<Props> = () => {
           selectedTemplate.fields.map((field, i)=>{
             let fieldContent = getFieldContent (field, i)
             return (
-              <Fragment key={i}>
-                {/* <div className="flex-none w-full border-b mt-4 border-zinc-400"></div> */}
-                {fieldContent}
-              </Fragment>
+              <div className="flex text-md mt-4 w-full justify-between" key={i}>
+                <div className='min-w-32'>{fieldContent[0]}</div>
+                <div className='grow'>{fieldContent[1]}</div>
+              </div>
             )
           })
         }
