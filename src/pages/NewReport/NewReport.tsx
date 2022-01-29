@@ -18,14 +18,23 @@ export const NewReport: FC<Props> = () => {
   let { user } = useAuth0();
   
   // Get all templates from db
-  let [templates, setTemplates] = useState([])
+  let [templates, setTemplates] = useState(null)
   
 
 
   // const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
 
+  type Template = {
+    name: string,
+    fields: Array<Field>
+  }
 
-  const [selectedTemplate, setSelectedTemplate] = useState({name: "Choose Template", fields: []})
+  type Field = {
+    value: any
+  }
+
+
+  const [selectedTemplate, setSelectedTemplate] = useState<Template>(null)
 
   useEffect(()=>{
     if(user) {
@@ -45,8 +54,9 @@ export const NewReport: FC<Props> = () => {
     })
   }
 
-  function saveNewReport () {
-
+  function createReport () {
+    console.log("Create Report");
+    
   }
 
   function setTemplate (template) {
@@ -68,7 +78,7 @@ export const NewReport: FC<Props> = () => {
             // Index 0 is the name
             <p className="">{field.name}</p>,
             // Index 1 is the content
-            <textarea className="bg-zinc-900 border rounded-md border-zinc-400 scrollbar" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(event.target.value, index)}} value={field.value}/>
+            <textarea className="bg-zinc-900 border rounded-md border-zinc-400 scrollbar w-full" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(event.target.value, index)}} value={field.value}/>
           ]
         )
       case 'switch':
@@ -102,32 +112,37 @@ export const NewReport: FC<Props> = () => {
             {
               ({open}) => (
                 <>
-                  <Listbox.Button className="w-full">
-                    <div className='flex justify-between'>
-                      <p className="truncate">
-                        {selectedTemplate.name}
-                      </p>
+                    <Listbox.Button className="w-full">
+                        <div className='flex justify-between'>
+                          <p className="truncate">
+                            { !templates && ("Loading...") ||
+                              (selectedTemplate ? selectedTemplate.name : "Select Template")
+                            }
+                          </p>
+                          {
+                            !open && 
+                            <ChevronDownIcon className="-mr-1 ml-2 mt-0.5 h-5 w-5 flex-none" aria-hidden="true" /> ||
+                            <ChevronUpIcon className="-mr-1 ml-2 mt-0.5 h-5 w-5 flex-none" aria-hidden="true"/>
+                          }
+                        </div>
+                      </Listbox.Button>
                       {
-                        !open && 
-                        <ChevronDownIcon className="-mr-1 ml-2 mt-0.5 h-5 w-5 flex-none" aria-hidden="true" /> ||
-                        <ChevronUpIcon className="-mr-1 ml-2 mt-0.5 h-5 w-5 flex-none" aria-hidden="true"/>
+                        open && 
+                        <Listbox.Options>
+                          {
+                            templates.map((template, i)=>(
+                              <Listbox.Option
+                                key={template.id || i}
+                                value={template}
+                                >
+                                <div className='cursor-pointer px-4 py-2 truncate text-zinc-400 hover:text-zinc-100'>
+                                  {template.name}
+                                </div>
+                              </Listbox.Option>
+                            ))
+                          }
+                        </Listbox.Options>
                       }
-                    </div>
-                  </Listbox.Button>
-                  <Listbox.Options>
-                    {
-                      templates.map((template, i)=>(
-                        <Listbox.Option
-                          key={template.id || i}
-                          value={template}
-                        >
-                          <div className='cursor-pointer px-4 py-2 truncate text-zinc-400 hover:text-zinc-100'>
-                            {template.name}
-                          </div>
-                        </Listbox.Option>
-                      ))
-                    }
-                  </Listbox.Options>
                 </>
               )
             }
@@ -136,16 +151,17 @@ export const NewReport: FC<Props> = () => {
         
         {/* Report Fields */}
         {
-          selectedTemplate.fields.map((field, i)=>{
+          selectedTemplate && selectedTemplate.fields.map((field, i)=>{
             let fieldContent = getFieldContent (field, i)
             return (
               <div className="flex text-md mt-4 w-full justify-between" key={i}>
-                <div className='min-w-32'>{fieldContent[0]}</div>
+                <div className="md:basis-1/3 md:w-64 mr-4">{fieldContent[0]}</div>
                 <div className='grow'>{fieldContent[1]}</div>
               </div>
             )
           })
         }
+        {selectedTemplate && <button className="button" onClick={createReport}>Create Report</button>}
       </div>
     </>
   )
