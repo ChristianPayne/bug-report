@@ -8,6 +8,7 @@ import { Dropdown } from '../../components/Dropdown'
 import { Title } from '../../components/Title'
 import { ReportState } from '../../store/reportReducer'
 import { RootState } from '../../store/store'
+import { v4 as uuid } from "uuid";
 
 type Props = { }
 
@@ -56,6 +57,25 @@ export const NewReport: FC<Props> = () => {
 
   function createReport () {
     console.log("Create Report");
+    // Create Report object from template.
+    let newReport = {
+      id: `Report|${uuid()}`,
+      name: "Untitled Report",
+      fields: selectedTemplate.fields.map(field=> {return {...field, value: JSON.stringify(field.value)}}),
+      userId: user.sub
+    }
+    console.log(newReport);
+    // Post request to the backend and wait for a 200.
+    fetch('/api/createReport', {
+      method: "POST",
+      body: JSON.stringify(newReport)
+    }).then(result => {
+      result.json().then(data => {
+        console.log(data);
+      })
+    })
+    // Add a loading message.
+    // Navigate back to reports.
     
   }
 
@@ -161,7 +181,7 @@ export const NewReport: FC<Props> = () => {
             )
           })
         }
-        {selectedTemplate && <button className="button" onClick={createReport}>Create Report</button>}
+        {selectedTemplate && <button className="button mt-4" onClick={createReport}>Create Report</button>}
       </div>
     </>
   )

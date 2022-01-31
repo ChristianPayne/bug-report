@@ -22,7 +22,7 @@ export async function getAllReportsByUserId(userId: string) {
   return await graphQLClient.request(query, {userId})
 }
 
-export async function getAllReportTemplatesByUserId(userId: string) {    
+export async function getAllReportTemplatesByUserId(userId: string) {
   const query = gql`
     query getAllReportTemplatesByUserId ($userId: String!) {
       getAllReportTemplatesByUserId (userId: $userId) {
@@ -40,4 +40,12 @@ export async function getAllReportTemplatesByUserId(userId: string) {
       }
     }` 
   return await graphQLClient.request(query, {userId})
+}
+
+export async function createReport (report: string) {
+  const mutation = gql`
+    mutation createReport ($report: String!) {
+      createReport (report: $report)
+    }` 
+  return await graphQLClient.request(mutation, {report})
 }
