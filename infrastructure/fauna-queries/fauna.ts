@@ -43,9 +43,19 @@ export async function getAllReportTemplatesByUserId(userId: string) {
 }
 
 export async function createReport (report: string) {
+  // console.log("Request data: ", report);
+
+  let reportObj = JSON.parse(report)
+
+  // console.log("Parsed report: ", reportObj);
+  
+  
+  
   const mutation = gql`
-    mutation createReport ($report: String!) {
-      createReport (report: $report)
-    }` 
-  return await graphQLClient.request(mutation, {report})
+    mutation createReport ($report: ReportInput!) {
+      createReport (report: $report) {
+        id
+      }
+    }`  
+  return await graphQLClient.request(mutation, {report: reportObj})
 }

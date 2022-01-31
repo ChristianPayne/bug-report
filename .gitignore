@@ -1,4 +1,5 @@
 .faunarc
+seed.js
 
 # Logs
 logs

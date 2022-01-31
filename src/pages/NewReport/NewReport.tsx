@@ -147,7 +147,7 @@ export const NewReport: FC<Props> = () => {
                         </div>
                       </Listbox.Button>
                       {
-                        open && 
+                        (templates && open) && 
                         <Listbox.Options>
                           {
                             templates.map((template, i)=>(
