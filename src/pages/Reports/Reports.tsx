@@ -14,7 +14,7 @@ export const Reports: FC<Props> = () => {
   let [isLoading, setIsLoading] = useState(true)
   let {isAuthenticated, logout, user} = useAuth0();
   let reportFieldsToShow = [
-    "id","name","userId"
+    "id","name"
   ]
   const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
   
@@ -33,6 +33,8 @@ export const Reports: FC<Props> = () => {
         headers: {userId: user?.sub}
       }).then(result => {
         result.json().then(data => {
+          console.log(data);
+          
           // Update the store with the reports
           dispatch({
             type: "ADD_REPORTS",
@@ -52,6 +54,12 @@ export const Reports: FC<Props> = () => {
   return (
     <div className='flex flex-col h-fit text-center'>
       <Title title="Reports"/>
+      {(!isLoading && reports.length === 0) && 
+        <div className='text-center'>
+          <p className="text-md">No Reports!</p>
+          <button className="button md:w-32 mt-4" onClick={()=>{navigate('new')}}>Create One</button>
+        </div>
+      }
       {
         !isLoading && (
           reports.map((item, i)=>{

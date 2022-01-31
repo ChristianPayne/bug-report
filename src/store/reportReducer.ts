@@ -29,6 +29,8 @@ const initialState = {
 export const reportReducer = (state: ReportState = initialState, action: Action) => {
   switch (action.type) {
     case "ADD_REPORT":
+      console.log("ADD_REPORT: ", action.payload);
+      
       return {
         reports: [...state.reports, action.payload]
       }

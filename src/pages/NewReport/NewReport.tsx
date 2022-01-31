@@ -74,9 +74,18 @@ export const NewReport: FC<Props> = () => {
         console.log(data);
       })
     })
-    // Add a loading message.
+    // TODO: Add a loading message.
+
+    // Add the report into the state
+    dispatch({
+      type: "ADD_REPORT",
+      payload: newReport
+    })
+
     // Navigate back to reports.
-    
+    setTimeout(()=>{
+      navigate('/reports')
+    }, 200)
   }
 
   function setTemplate (template) {

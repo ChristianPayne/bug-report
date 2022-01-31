@@ -16,6 +16,12 @@ export async function getAllReportsByUserId(userId: string) {
           id
           name
           userId
+          fields {
+            id
+            type
+            name
+            value
+          }
         }
       }
     }` 
