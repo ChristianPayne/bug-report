@@ -17,9 +17,12 @@ export const NewReport: FC<Props> = () => {
   let dispatch = useDispatch()
   let [isLoading, setIsLoading] = useState(true)
   let { user } = useAuth0();
+
+  let [reportName, setReportName] = useState('Untitled Report');
   
   // Get all templates from db
   let [templates, setTemplates] = useState(null)
+
   
 
 
@@ -60,7 +63,7 @@ export const NewReport: FC<Props> = () => {
     // Create Report object from template.
     let newReport = {
       id: `Report|${uuid()}`,
-      name: "Untitled Report",
+      name: reportName,
       fields: selectedTemplate.fields.map(field=> {return {...field, value: JSON.stringify(field.value)}}),
       userId: user.sub
     }
@@ -85,12 +88,12 @@ export const NewReport: FC<Props> = () => {
     // Navigate back to reports.
     setTimeout(()=>{
       navigate('/reports')
-    }, 200)
+    }, 300)
   }
 
   function setTemplate (template) {
     setSelectedTemplate(template);
-    console.log(template);
+    // console.log(template);
   }
 
   function handleFieldValues (value: any, index) {
@@ -180,17 +183,26 @@ export const NewReport: FC<Props> = () => {
         
         {/* Report Fields */}
         {
-          selectedTemplate && selectedTemplate.fields.map((field, i)=>{
-            let fieldContent = getFieldContent (field, i)
-            return (
-              <div className="flex text-md mt-4 w-full justify-between" key={i}>
-                <div className="md:basis-1/3 md:w-64 mr-4">{fieldContent[0]}</div>
-                <div className='grow'>{fieldContent[1]}</div>
-              </div>
-            )
-          })
+          selectedTemplate && 
+          <>
+            <div className="flex text-md mt-4 w-full justify-between">
+              <p className='md:basis-1/3 md:w-64 mr-4'>Report Name</p>
+              <input className='grow input truncate' type="text" placeholder={reportName} onChange={(event)=>{setReportName(event.target.value)}} />
+            </div>
+            {
+              selectedTemplate.fields.map((field, i)=>{
+                let fieldContent = getFieldContent (field, i)
+                return (
+                  <div className="flex text-md mt-4 w-full justify-between" key={i}>
+                    <div className="md:basis-1/3 md:w-64 mr-4">{fieldContent[0]}</div>
+                    <div className='grow'>{fieldContent[1]}</div>
+                  </div>
+                )
+              })
+            }
+            <button className="button mt-4" onClick={createReport}>Create Report</button>
+          </>
         }
-        {selectedTemplate && <button className="button mt-4" onClick={createReport}>Create Report</button>}
       </div>
     </>
   )

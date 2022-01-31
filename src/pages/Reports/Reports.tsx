@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { Title } from '../../components/Title'
 import { ReportState } from '../../store/reportReducer'
 import { RootState } from '../../store/store'
+import { TrashIcon } from '@heroicons/react/solid'
+
 
 type Props = { }
 
@@ -51,6 +53,10 @@ export const Reports: FC<Props> = () => {
     navigate(`${id}`)
   } 
 
+  function deleteReport (id: string) {
+    console.warn(`Delete Report not implemented. Delete report ${id}`);
+  }
+
   return (
     <div className='flex flex-col h-fit text-center'>
       <Title title="Reports"/>
@@ -64,21 +70,26 @@ export const Reports: FC<Props> = () => {
         !isLoading && (
           reports.map((item, i)=>{
             return (
-              <button key={item.id + i} className='text-left border border-zinc-100 p-2 overflow-auto sm:flex items-center mt-3 justify-between md:justify-evenly rounded-md'
-              onClick={()=>{entryClick(item.id)}}>
-                {
-                  reportFieldsToShow.map((key,i)=>{
-                    return(
-                      <Fragment key={`${item}|${key}|${i}`}>
-                        <div className='flex justify-center w-full'>
-                          <p>{item[key]}</p>
-                        </div>
-                        {i == reportFieldsToShow.length - 1 ? <></> : <div className="hidden sm:block">&#124;</div>}
-                      </Fragment>
-                    )
-                  })
-                }
-              </button>
+              <div key={item.id + i}  className='flex w-full border border-zinc-100 rounded-md mt-3'>
+                <button className='grow text-left p-2 overflow-auto sm:flex items-center justify-between md:justify-evenly'
+                onClick={()=>{entryClick(item.id)}}>
+                  {
+                    reportFieldsToShow.map((key,i)=>{
+                      return(
+                        <Fragment key={`${item}|${key}|${i}`}>
+                          <div className='flex justify-center w-full'>
+                            <p>{item[key]}</p>
+                          </div>
+                          {i == reportFieldsToShow.length - 1 ? <></> : <div className="hidden sm:block">&#124;</div>}
+                        </Fragment>
+                      )
+                    })
+                  }
+                </button>
+                <button className='w-8 flex-none ml-4 p-1 align-middle' onClick={() => deleteReport(item.id)}>
+                  <TrashIcon />
+                </button>
+              </div>
             )
           })
         ) || (

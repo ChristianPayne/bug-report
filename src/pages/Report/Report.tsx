@@ -18,6 +18,11 @@ export const Report: FC<Props> = () => {
   const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
 
   console.log(reports);
+
+  function loadReport (report) {
+    // Try to find 
+    return {}
+  }
   
 
   useEffect(()=>{
