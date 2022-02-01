@@ -1,4 +1,5 @@
 # Bug Report
+### Report on your day and track bugs in your life.
 # React, Typescript, Netlify, Vite, TailwindCSS Starter
 ## What is it:
 This is a basic working dev environment for working on a React/Typescript application, including TailwindCSS, and using _next generation tooling_ from Vite. In addition running lambda's from Netlify/Typescript in the same environment.
