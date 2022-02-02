@@ -54,7 +54,14 @@ export const Reports: FC<Props> = () => {
   } 
 
   function deleteReport (id: string) {
-    console.warn(`Delete Report not implemented. Delete report ${id}`);
+    // console.warn(`Delete Report not implemented. Delete report ${id}`);
+    fetch('/api/deleteReport', {
+      method: "POST",
+      body: JSON.stringify({id})
+    }).then(result => {
+      console.log(result);
+      
+    })
   }
 
   return (
