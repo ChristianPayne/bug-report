@@ -18,7 +18,7 @@ type Mutation {
   # TODO: I am struggling with passing variables. The Report type cant seem to be passed. JSON as a string doesn't work properly on the FQL side.
   createReport (report: ReportInput!) : Report @resolver
   updateReport (id: String!, report: String!) : String @resolver
-  deleteReport (id: String!) : Boolean @resolver
+  deleteReport (id: String!) : String @resolver
   # Report Templates
   createReportTemplate (id: String, reportTemplate: String!) : String @resolver
   updateReportTemplate (id: String!, reportTemplate: String!) : String @resolver

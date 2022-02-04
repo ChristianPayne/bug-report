@@ -65,6 +65,9 @@ export async function deleteReport (id: string) {
   const mutation = gql`
     mutation deleteReport ($id: String!) {
       deleteReport (id: $id)
-    }`  
-  return await graphQLClient.request(mutation, {id})
+    }`
+  let response = await graphQLClient.request(mutation, {id})
+  console.log("Response: ", response);
+  
+  return true
 }

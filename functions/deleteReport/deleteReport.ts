@@ -7,10 +7,10 @@ const handler: Handler = async (event) => {
   let reportId = body.id
   
 
+  let response = await deleteReport(reportId)
   
-  let response: DeleteReportResponse = await deleteReport(reportId)
 
-  console.log(response);
+  // console.log(response);
   
 
   // if(response.getAllReportsByUserId == null) {
