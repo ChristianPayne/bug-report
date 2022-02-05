@@ -3,6 +3,7 @@ import React, { FC, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../../store/appReducer'
 import { RootState } from '../../store/store'
+import { createUser } from "../../lib/bug-report-database";
 
 type Props = { title: string }
 
@@ -10,7 +11,9 @@ export const Title: FC<Props> = (props: Props) => {
   let dispatch = useDispatch()
   let pageTitle = useSelector<RootState, AppState["page"]>((state)=> state.app.page)
 
+
   useEffect(()=>{
+  console.log(createUser())
     dispatch({
       type: "SET_PAGE",
       payload: props.title
