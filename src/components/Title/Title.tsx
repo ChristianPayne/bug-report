@@ -35,7 +35,7 @@ export const Title: FC<Props> = (props: Props) => {
     // let getDoc = await getUserByUserId(user?.sub)
     // console.log(getDoc);
     
-    let user = updateUser()
+    let user = updateUser({id: "YrucOngpEj9sunEaYPau"})
     
   }
 

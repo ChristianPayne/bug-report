@@ -30,8 +30,10 @@ export async function createUser (user: User) : Promise<User> {
   // Read the new user and return the data again.
   return {...user, id: docRef.id};
 }
-export async function updateUser () : Promise<User> {
-  let user = await updateDocument(usersTable, "YrucOngpEj9sunEaYPau", {another: "Another Update"})
+export async function updateUser (user: User) : Promise<User> {
+  let userDoc = await updateDocument(usersTable, user.id, {another: "Another Update 2"})
+  console.log(userDoc);
+  
   return user as User
 }
 export function deleteUser () : string {

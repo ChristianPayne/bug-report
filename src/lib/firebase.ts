@@ -92,7 +92,7 @@ export async function getDocuments (collection: string) {
   });
 }
 
-export async function updateDocument (collection: string, path: string, document: Object) : Promise<Object> {
+export async function updateDocument (collection: string, path: string, document: any) : Promise<Object> {
   const ref = doc(db, collection, path)
   const upDoc = await updateDoc(ref, document);
 
@@ -102,10 +102,5 @@ export async function updateDocument (collection: string, path: string, document
 }
 
 export async function deleteDocument (collection: string, id: string) {
-  
-}
-
-
-export async function test() {
   
 }
