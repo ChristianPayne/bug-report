@@ -3,7 +3,7 @@ import React, { FC, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../../store/appReducer'
 import { RootState } from '../../store/store'
-import { createUser } from "../../lib/bug-report-database";
+import { createUser, getUserByUserId } from "../../lib/bug-report-database";
 
 type Props = { title: string }
 
@@ -13,7 +13,7 @@ export const Title: FC<Props> = (props: Props) => {
 
 
   useEffect(()=>{
-  console.log(createUser())
+  console.log(getUserByUserId("rPV46nOnbMSuQYtM0Kta"))
     dispatch({
       type: "SET_PAGE",
       payload: props.title

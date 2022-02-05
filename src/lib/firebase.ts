@@ -42,12 +42,8 @@ export async function addDocument (collection: string, document: Object) {
 }
 
 export async function getDocument(collection: string, path: string) : Promise<DocumentData> {
-  const docRef: DocumentReference = doc(db, collections[collection], path);
-  console.log(docRef);
-  
+  const docRef: DocumentReference = doc(db, collection, path);
   const docSnap: DocumentSnapshot = await getDoc(docRef);
-
-  console.log("Data:", docSnap.exists());
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
     return docSnap.data()

@@ -13,19 +13,11 @@ import {
 } from "./types";
 
 // Users
-export function getUserByUserId () : User {
+export async function getUserByUserId (id: string) : Promise<User> {
+  let doc = await getDocument("users", id) as User;
+  return doc;
 }
-export function createUser () {
-  getDocument("users", "CnJWu0shibsxflDPPt1j").then((data) => {
-    console.log("Here");
-    
-    console.log(data)
-  }).then(() => {
-    return {
-      id: "234",
-      role: "23"
-    }
-  })
+export async function createUser () : Promise<User> {
 }
 export function updateUser () : User {
 }
