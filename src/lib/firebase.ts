@@ -9,7 +9,8 @@ import {
   getDoc,
   DocumentData,
   DocumentReference,
-  DocumentSnapshot
+  DocumentSnapshot,
+  setDoc
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -26,7 +27,7 @@ const firebaseConfig : FirebaseOptions = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 const db = getFirestore()
 
 const collections = {
@@ -37,8 +38,14 @@ const collections = {
 
 
 // CRUD
-export async function addDocument (collection: string, document: Object) {
-  
+export async function addDocument (collection: string, document: Object) : Promise<DocumentReference<DocumentData>> {
+  try {
+    const docRef = await addDoc(fire_collection(db, collection), document);
+    console.log("Document written to DB: ", docRef);
+    return docRef;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
 }
 
 export async function getDocument(collection: string, path: string) : Promise<DocumentData> {
@@ -49,6 +56,15 @@ export async function getDocument(collection: string, path: string) : Promise<Do
     return docSnap.data()
   } else {
     throw new Error("No document found!")
+  }
+}
+
+export async function getDocumentByRef (ref: DocumentReference) : Promise<Object> {
+  const docSnap: DocumentSnapshot = await getDoc(ref);
+  if(docSnap.exists()) {
+    return docSnap.data()
+  } else {
+    throw new Error ("No document found!")
   }
 }
 
@@ -69,14 +85,5 @@ export async function deleteDocument (collection: string, id: string) {
 
 
 export async function test() {
-  try {
-    const docRef = await addDoc(fire_collection(db, "users"), {
-      first: "Ada",
-      last: "Lovelace",
-      born: 1815
-    });
-    console.log("Document written with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
+  
 }

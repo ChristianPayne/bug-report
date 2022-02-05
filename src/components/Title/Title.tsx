@@ -13,12 +13,23 @@ export const Title: FC<Props> = (props: Props) => {
 
 
   useEffect(()=>{
-  console.log(getUserByUserId("rPV46nOnbMSuQYtM0Kta"))
     dispatch({
       type: "SET_PAGE",
       payload: props.title
     })
   },[])
+
+  async function test () {
+    // let result = await getUserByUserId("rPV46nOnbMSuQYtM0Kta")
+    // console.log(result);
+
+    let newDoc = await createUser({
+      id: "12345",
+      role: "Admin"
+    })
+    console.log(newDoc);
+    
+  }
 
   function toggleSidebar () {
     dispatch({
@@ -31,7 +42,11 @@ export const Title: FC<Props> = (props: Props) => {
         <MenuIcon />
       </button>
       <h1 className='grow text-xl sm:text-2xl font-montserrat text-center'>{pageTitle}</h1>
-      <div className="flex-none w-8"></div>
+      <div className="flex-none w-8">
+        <button className='button' onClick={test}>
+          Test
+        </button>
+      </div>
     </div>
   )
 }

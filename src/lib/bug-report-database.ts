@@ -1,9 +1,11 @@
+import { DocumentReference } from "firebase/firestore";
 import { 
   addDocument,
   getDocument,
   getDocuments,
   updateDocument,
-  deleteDocument
+  deleteDocument,
+  getDocumentByRef
 } from "./firebase";
 
 import { 
@@ -12,12 +14,18 @@ import {
   User 
 } from "./types";
 
+let usersTable = 'users';
+let reportsTable = 'reports';
+let reportTemplatesTable = 'reportTemplates';
+
 // Users
 export async function getUserByUserId (id: string) : Promise<User> {
-  let doc = await getDocument("users", id) as User;
+  let doc = await getDocument(usersTable, id) as User;
   return doc;
 }
-export async function createUser () : Promise<User> {
+export async function createUser (user: User) : Promise<User> {
+  let docRef = await addDocument(usersTable, user);
+  return await getDocumentByRef(docRef) as User;
 }
 export function updateUser () : User {
 }
