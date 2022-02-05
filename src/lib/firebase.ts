@@ -12,9 +12,8 @@ import {
   DocumentSnapshot,
   setDoc,
   query as fire_query,
-  where,
-  QueryConstraintType,
   QueryConstraint,
+  updateDoc,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -93,7 +92,12 @@ export async function getDocuments (collection: string) {
   });
 }
 
-export async function updateDocument (collection: string, document: Object) {
+export async function updateDocument (collection: string, path: string, document: Object) : Promise<Object> {
+  const ref = doc(db, collection, path)
+  const upDoc = await updateDoc(ref, document);
+
+  console.log(upDoc);
+  return {}
   
 }
 
