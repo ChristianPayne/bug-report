@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../../store/appReducer'
 import { RootState } from '../../store/store'
 import { createUser, getUserByUserId } from "../../lib/bug-report-database";
+import { useAuth0 } from '@auth0/auth0-react'
 
 type Props = { title: string }
 
 export const Title: FC<Props> = (props: Props) => {
   let dispatch = useDispatch()
   let pageTitle = useSelector<RootState, AppState["page"]>((state)=> state.app.page)
+
+  let {user} = useAuth0()
 
 
   useEffect(()=>{
@@ -24,10 +27,14 @@ export const Title: FC<Props> = (props: Props) => {
     // console.log(result);
 
     let newDoc = await createUser({
-      id: "12345",
+      authId: user?.sub,
       role: "Admin"
     })
     console.log(newDoc);
+
+    let getDoc = await getUserByUserId(newDoc.id)
+    console.log(getDoc);
+    
     
   }
 

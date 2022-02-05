@@ -48,12 +48,12 @@ export async function addDocument (collection: string, document: Object) : Promi
   }
 }
 
-export async function getDocument(collection: string, path: string) : Promise<DocumentData> {
+export async function getDocument(collection: string, path: string) : Promise<Object> {
   const docRef: DocumentReference = doc(db, collection, path);
   const docSnap: DocumentSnapshot = await getDoc(docRef);
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    return docSnap.data()
+    return {id: docRef.id, ...docSnap.data()}
   } else {
     throw new Error("No document found!")
   }

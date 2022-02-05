@@ -20,12 +20,13 @@ let reportTemplatesTable = 'reportTemplates';
 
 // Users
 export async function getUserByUserId (id: string) : Promise<User> {
-  let doc = await getDocument(usersTable, id) as User;
-  return doc;
+  return await getDocument(usersTable, id) as User;
 }
 export async function createUser (user: User) : Promise<User> {
-  let docRef = await addDocument(usersTable, user);
-  return await getDocumentByRef(docRef) as User;
+  // Write a new user.
+  let docRef: DocumentReference = await addDocument(usersTable, user);
+  // Read the new user and return the data again.
+  return {...user, id: docRef.id};
 }
 export function updateUser () : User {
 }
