@@ -1,11 +1,12 @@
-import { DocumentReference } from "firebase/firestore";
+import { DocumentReference, limit, where } from "firebase/firestore";
 import { 
   addDocument,
   getDocument,
   getDocuments,
   updateDocument,
   deleteDocument,
-  getDocumentByRef
+  getDocumentByRef,
+  queryDocuments
 } from "./firebase";
 
 import { 
@@ -20,7 +21,8 @@ let reportTemplatesTable = 'reportTemplates';
 
 // Users
 export async function getUserByUserId (id: string) : Promise<User> {
-  return await getDocument(usersTable, id) as User;
+  let user = await queryDocuments(usersTable, [where("authId", "==", id), limit(1)])
+  return user[0] as User;
 }
 export async function createUser (user: User) : Promise<User> {
   // Write a new user.

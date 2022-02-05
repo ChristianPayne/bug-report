@@ -10,7 +10,11 @@ import {
   DocumentData,
   DocumentReference,
   DocumentSnapshot,
-  setDoc
+  setDoc,
+  query as fire_query,
+  where,
+  QueryConstraintType,
+  QueryConstraint,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -66,6 +70,20 @@ export async function getDocumentByRef (ref: DocumentReference) : Promise<Object
   } else {
     throw new Error ("No document found!")
   }
+}
+
+export async function queryDocuments (collection: string, query: Array<QueryConstraint>) : Promise<Object[]> {
+  const q = fire_query(fire_collection(db, collection), ...query);
+  const querySnapshot = await getDocs(q);
+  console.log(querySnapshot);
+  
+  let dataArr = []
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    // console.log(doc.id, " => ", doc.data());
+    dataArr.push({id: doc.id, ...doc.data()})
+  });
+  return dataArr;
 }
 
 export async function getDocuments (collection: string) {

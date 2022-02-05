@@ -26,13 +26,13 @@ export const Title: FC<Props> = (props: Props) => {
     // let result = await getUserByUserId("rPV46nOnbMSuQYtM0Kta")
     // console.log(result);
 
-    let newDoc = await createUser({
-      authId: user?.sub,
-      role: "Admin"
-    })
-    console.log(newDoc);
+    // let newDoc = await createUser({
+    //   authId: user?.sub,
+    //   role: "Admin"
+    // })
+    // console.log(newDoc);
 
-    let getDoc = await getUserByUserId(newDoc.id)
+    let getDoc = await getUserByUserId(user?.sub)
     console.log(getDoc);
     
     
