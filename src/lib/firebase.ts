@@ -14,6 +14,8 @@ import {
   query as fire_query,
   QueryConstraint,
   updateDoc,
+  CollectionReference,
+  deleteDoc,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -33,17 +35,25 @@ const firebaseConfig : FirebaseOptions = {
 initializeApp(firebaseConfig);
 const db = getFirestore()
 
-const collections = {
-  users : fire_collection(db, "users"),
-  reports : fire_collection(db, "reports"),
-  reportTemplates : fire_collection(db, "reportTemplates")
+function collectionRef (collection: string) : CollectionReference {
+  switch (collection) {
+    case "users":
+      return fire_collection(db, "users");
+    case "reports":
+      return fire_collection(db, "reports");
+    case "reportTemplates":
+      return fire_collection(db, "reportTemplates")
+  }
+}
+function documentRef (collection: string, path: string = "") : DocumentReference {
+  return doc(db, collection, path)
 }
 
 
 // CRUD
 export async function addDocument (collection: string, document: Object) : Promise<DocumentReference<DocumentData>> {
   try {
-    const docRef = await addDoc(fire_collection(db, collection), document);
+    const docRef = await addDoc(collectionRef(collection), document);
     console.log("Document written to DB: ", docRef);
     return docRef;
   } catch (e) {
@@ -52,7 +62,7 @@ export async function addDocument (collection: string, document: Object) : Promi
 }
 
 export async function getDocument(collection: string, path: string) : Promise<Object> {
-  const docRef: DocumentReference = doc(db, collection, path);
+  const docRef: DocumentReference = documentRef(collection, path);
   const docSnap: DocumentSnapshot = await getDoc(docRef);
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
@@ -72,7 +82,7 @@ export async function getDocumentByRef (ref: DocumentReference) : Promise<Object
 }
 
 export async function queryDocuments (collection: string, query: Array<QueryConstraint>) : Promise<Object[]> {
-  const q = fire_query(fire_collection(db, collection), ...query);
+  const q = fire_query(collectionRef(collection), ...query);
   const querySnapshot = await getDocs(q);
   console.log(querySnapshot);
   
@@ -86,21 +96,47 @@ export async function queryDocuments (collection: string, query: Array<QueryCons
 }
 
 export async function getDocuments (collection: string) {
-  const querySnapshot = await getDocs(collections[collection]);
+  const querySnapshot = await getDocs(collectionRef(collection));
   querySnapshot.forEach((doc) => {
     console.log(`${doc.id} => `, doc.data());
   });
 }
 
-export async function updateDocument (collection: string, path: string, document: any) : Promise<Object> {
-  const ref = doc(db, collection, path)
-  const upDoc = await updateDoc(ref, document);
-
-  console.log(upDoc);
-  return {}
-  
+export async function updateDocument (collection: string, path: string, document: any) : Promise<Boolean> {
+  try {
+    const ref = documentRef(collection, path);
+    await updateDoc(ref, document);
+    return true;
+  } catch (error) {
+    console.error("Update document error: ", error);
+    return false;
+  }
 }
 
-export async function deleteDocument (collection: string, id: string) {
-  
+export async function setDocument (collection: string, path: string, document: any) {
+  try {
+    const ref = documentRef(collection, path);
+    await setDoc(ref, document);
+    return true
+  } catch (error) {
+    console.error("Set document error: ", error)
+    return false
+  }
+}
+
+export async function deleteDocument (collection: string, path: string) {
+  try {
+    const ref = documentRef(collection, path);
+    await deleteDoc(ref);
+    return true;
+  } catch (error) {
+    console.error("Delete document error: ", error);
+    return false;
+  }
+}
+
+export async function getCollectionRoot (collection: string) {
+  let result = await getDocument(collection, "root");
+  // console.log(result);
+  return result;
 }

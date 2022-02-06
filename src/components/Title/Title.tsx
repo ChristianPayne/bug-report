@@ -3,7 +3,7 @@ import React, { FC, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../../store/appReducer'
 import { RootState } from '../../store/store'
-import { createUser, getUserByUserId, updateUser } from "../../lib/bug-report-database";
+import { createUser, deleteUser, getRoot, getUserByUserId, updateUser } from "../../lib/bug-report-database";
 import { useAuth0 } from '@auth0/auth0-react'
 
 type Props = { title: string }
@@ -35,7 +35,23 @@ export const Title: FC<Props> = (props: Props) => {
     // let getDoc = await getUserByUserId(user?.sub)
     // console.log(getDoc);
     
-    let user = updateUser({id: "YrucOngpEj9sunEaYPau"})
+    // let updatedInfo = updateUser({
+    //   id: "YrucOngpEj9sunEaYPau",
+    //   authId: "abc",
+    //   role: "admin",
+    //   added: 1
+    // })
+
+    
+    // console.log(await getRoot());
+    
+
+    await deleteUser({
+      id: "YrucOngpEj9sunEaYPau",
+      authId: "abc",
+      role: "admin",
+      added: 1
+    })
     
   }
 

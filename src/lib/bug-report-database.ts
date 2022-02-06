@@ -6,7 +6,8 @@ import {
   updateDocument,
   deleteDocument,
   getDocumentByRef,
-  queryDocuments
+  queryDocuments,
+  getCollectionRoot
 } from "./firebase";
 
 import { 
@@ -18,6 +19,10 @@ import {
 let usersTable = 'users';
 let reportsTable = 'reports';
 let reportTemplatesTable = 'reportTemplates';
+
+export async function getRoot() {
+  return await getCollectionRoot("users")
+}
 
 // Users
 export async function getUserByUserId (id: string) : Promise<User> {
@@ -31,12 +36,11 @@ export async function createUser (user: User) : Promise<User> {
   return {...user, id: docRef.id};
 }
 export async function updateUser (user: User) : Promise<User> {
-  let userDoc = await updateDocument(usersTable, user.id, {another: "Another Update 2"})
-  console.log(userDoc);
-  
+  await updateDocument(usersTable, user.id, user)
   return user as User
 }
-export function deleteUser () : string {
+export async function deleteUser (user: User) : Promise<boolean> {
+  return await deleteDocument(usersTable, user.id);
 }
 
 // Reports
