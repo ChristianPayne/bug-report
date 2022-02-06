@@ -31,9 +31,9 @@ export async function getUserByUserId (id: string) : Promise<User> {
 }
 export async function createUser (user: User) : Promise<User> {
   // Write a new user.
-  let docRef: DocumentReference = await addDocument(usersTable, user);
+  let userObj: User = await addDocument(usersTable, user) as User;
   // Read the new user and return the data again.
-  return {...user, id: docRef.id};
+  return userObj;
 }
 export async function updateUser (user: User) : Promise<User> {
   await updateDocument(usersTable, user.id, user)
@@ -44,15 +44,24 @@ export async function deleteUser (user: User) : Promise<boolean> {
 }
 
 // Reports
-export function getReportById () : Report {
+export async function getReportById (id: string) : Promise<Report> {
+  let report = await queryDocuments(reportsTable, [where("id", "==", id), limit(1)]);
+  return report[0] as Report;
 }
-export function getAllReportsByUserId () : Array<Report> {
+export async function getAllReportsByUserId (userId: string) : Promise<Report[]> {
+  let reports = await queryDocuments(reportsTable, [where("userId", "==", userId)]);
+  return reports as Array<Report>
 }
-export function createReport () : Report {
+export async function createReport (report: Report) : Promise<Report> {
+  let reportObj: Report = await addDocument(reportsTable, report) as Report;
+  return reportObj;
 }
-export function updateReport () : Report {
+export async function updateReport (report: Report) : Promise<Report> {
+  await updateDocument(reportsTable, report.id, report);
+  return report as Report
 }
-export function deleteReport () : string {
+export async function deleteReport (report: Report) : Promise<boolean> {
+  return await deleteDocument(reportsTable, report.id);
 }
 
 // Report Templates

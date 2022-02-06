@@ -9,6 +9,8 @@ import { Title } from '../../components/Title'
 import { ReportState } from '../../store/reportReducer'
 import { RootState } from '../../store/store'
 import { v4 as uuid } from "uuid";
+import * as bugReportDatabase from '../../lib/bug-report-database';
+import { Report, ReportTemplate } from '../../lib/types'
 
 type Props = { }
 
@@ -28,17 +30,8 @@ export const NewReport: FC<Props> = () => {
 
   // const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
 
-  type Template = {
-    name: string,
-    fields: Array<Field>
-  }
 
-  type Field = {
-    value: any
-  }
-
-
-  const [selectedTemplate, setSelectedTemplate] = useState<Template>(null)
+  const [selectedTemplate, setSelectedTemplate] = useState<ReportTemplate>(null)
 
   useEffect(()=>{
     if(user) {
@@ -58,25 +51,30 @@ export const NewReport: FC<Props> = () => {
     })
   }
 
-  function createReport () {
+  async function createReport () {
     console.log("Create Report");
     // Create Report object from template.
-    let newReport = {
+    let newReport: Report = {
       id: `Report|${uuid()}`,
       name: reportName,
-      fields: selectedTemplate.fields.map(field=> {return {...field, value: JSON.stringify(field.value)}}),
-      userId: user.sub
+      userId: user.sub,
+      date: Date.now().toString(),
+      fields: selectedTemplate.fields.map(field=> {
+        return {
+          id: `Field|${uuid()}`,
+          type: field.type,
+          name: field.name,
+          value: field.value
+        }
+      }),
+      // fields: selectedTemplate.fields.map(field=> {return {...field, value: JSON.stringify(field.value)}}),
     }
     console.log(newReport);
-    // Post request to the backend and wait for a 200.
-    fetch('/api/createReport', {
-      method: "POST",
-      body: JSON.stringify(newReport)
-    }).then(result => {
-      result.json().then(data => {
-        console.log(data);
-      })
-    })
+    
+    let createdReport = await bugReportDatabase.createReport(newReport)
+
+    console.log("Created Report: ", createdReport);
+    
     // TODO: Add a loading message.
 
     // Add the report into the state

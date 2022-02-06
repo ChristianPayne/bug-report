@@ -1,10 +1,8 @@
-import { MenuIcon } from '@heroicons/react/solid'
-import React, { FC, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppState } from '../../store/appReducer'
-import { RootState } from '../../store/store'
-import { createUser, deleteUser, getRoot, getUserByUserId, updateUser } from "../../lib/bug-report-database";
-import { useAuth0 } from '@auth0/auth0-react'
+import { MenuIcon } from '@heroicons/react/solid';
+import React, { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from '../../store/appReducer';
+import { RootState } from '../../store/store';
 
 type Props = { title: string }
 
@@ -12,48 +10,12 @@ export const Title: FC<Props> = (props: Props) => {
   let dispatch = useDispatch()
   let pageTitle = useSelector<RootState, AppState["page"]>((state)=> state.app.page)
 
-  let {user} = useAuth0()
-
-
   useEffect(()=>{
     dispatch({
       type: "SET_PAGE",
       payload: props.title
     })
   },[])
-
-  async function test () {
-    // let result = await getUserByUserId("rPV46nOnbMSuQYtM0Kta")
-    // console.log(result);
-
-    // let newDoc = await createUser({
-    //   authId: user?.sub,
-    //   role: "Admin"
-    // })
-    // console.log(newDoc);
-
-    // let getDoc = await getUserByUserId(user?.sub)
-    // console.log(getDoc);
-    
-    // let updatedInfo = updateUser({
-    //   id: "YrucOngpEj9sunEaYPau",
-    //   authId: "abc",
-    //   role: "admin",
-    //   added: 1
-    // })
-
-    
-    // console.log(await getRoot());
-    
-
-    await deleteUser({
-      id: "YrucOngpEj9sunEaYPau",
-      authId: "abc",
-      role: "admin",
-      added: 1
-    })
-    
-  }
 
   function toggleSidebar () {
     dispatch({
@@ -67,9 +29,6 @@ export const Title: FC<Props> = (props: Props) => {
       </button>
       <h1 className='grow text-xl sm:text-2xl font-montserrat text-center'>{pageTitle}</h1>
       <div className="flex-none w-8">
-        <button className='button' onClick={test}>
-          Test
-        </button>
       </div>
     </div>
   )

@@ -3,11 +3,9 @@ import { FirebaseOptions, initializeApp } from "firebase/app";
 import { 
   getFirestore, 
   collection as fire_collection, 
-  addDoc, 
   getDocs,
   doc,
   getDoc,
-  DocumentData,
   DocumentReference,
   DocumentSnapshot,
   setDoc,
@@ -51,11 +49,10 @@ function documentRef (collection: string, path: string = "") : DocumentReference
 
 
 // CRUD
-export async function addDocument (collection: string, document: Object) : Promise<DocumentReference<DocumentData>> {
+export async function addDocument (collection: string, document: {id: string}) : Promise<Object> {
   try {
-    const docRef = await addDoc(collectionRef(collection), document);
-    console.log("Document written to DB: ", docRef);
-    return docRef;
+    await setDoc(doc(db, collection, document.id), document);
+    return document;
   } catch (e) {
     console.error("Error adding document: ", e);
   }

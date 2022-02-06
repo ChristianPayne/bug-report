@@ -1,7 +1,7 @@
 export type User = {
   authId: string
   role: string
-  id?: string
+  id: string
 }
 
 export type Report = {
