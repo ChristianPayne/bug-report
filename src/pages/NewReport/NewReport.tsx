@@ -11,6 +11,7 @@ import { RootState } from '../../store/store'
 import { v4 as uuid } from "uuid";
 import * as bugReportDatabase from '../../lib/bug-report-database';
 import { Report, ReportTemplate } from '../../lib/types'
+import { FieldsReadWrite } from '../../components/FieldsReadWrite'
 
 type Props = { }
 
@@ -19,12 +20,16 @@ export const NewReport: FC<Props> = () => {
   let dispatch = useDispatch()
   let [isLoading, setIsLoading] = useState(true)
   let { user } = useAuth0();
-
-  let [reportName, setReportName] = useState('Untitled Report');
   
   // Get all templates from db
   let [templates, setTemplates] = useState(null);
-  const [selectedTemplate, setSelectedTemplate] = useState<ReportTemplate>(null)
+  const [selectedTemplate, setSelectedTemplate] = useState(null)
+  const [newReport, setNewReport] = useState<ReportTemplate>({
+    name: "Untitled Report",
+    userId: "NoUserId",
+    id: "Report|NoID",
+    fields: []
+  })
 
   useEffect(()=>{
     if(user) {
@@ -41,12 +46,12 @@ export const NewReport: FC<Props> = () => {
 
   async function createReport () {
     // Create Report object from template.
-    let newReport: Report = {
+    let reportObj: Report = {
       id: `Report|${uuid()}`,
-      name: reportName,
+      name: newReport.name,
       userId: user.sub,
       date: Date.now().toString(),
-      fields: selectedTemplate.fields.map(field=> {
+      fields: newReport.fields.map(field=> {
         return {
           id: `Field|${uuid()}`,
           type: field.type,
@@ -55,7 +60,7 @@ export const NewReport: FC<Props> = () => {
         }
       }),
     }
-    let createdReport = await bugReportDatabase.createReport(newReport)
+    let createdReport = await bugReportDatabase.createReport(reportObj)
 
     console.log("Created Report: ", createdReport);
     
@@ -74,46 +79,9 @@ export const NewReport: FC<Props> = () => {
   }
 
   function setTemplate (template) {
-    setSelectedTemplate(template);
+    setNewReport(template);
+    setSelectedTemplate(template)
     // console.log(template);
-  }
-
-  function handleFieldValues (value: any, index) {
-    let newTemplate = Object.assign({}, selectedTemplate);
-    newTemplate.fields[index].value = value;
-    setSelectedTemplate(newTemplate)
-  }
-
-  function getFieldContent (field, index) {
-    switch (field.type) {
-      case "text":
-        return (
-          [
-            // Index 0 is the name
-            <p className="">{field.name}</p>,
-            // Index 1 is the content
-            <textarea className="bg-zinc-900 border rounded-md border-zinc-400 scrollbar w-full" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(event.target.value, index)}} value={field.value}/>
-          ]
-        )
-      case 'switch':
-        return (
-          [
-            // Index 0 is the name
-            <p className="">{field.name}</p>,
-            // Index 1 is the content
-            <Switch
-            checked={field.value}
-            onChange={(value: boolean) => {handleFieldValues(value, index)}}
-            className={`bg-zinc-100 inline-flex items-center h-6 rounded-full w-11`}>
-                <span
-                  className={`${field.value ? 'translate-x-6' : 'translate-x-1'} inline-block w-4 h-4 transform bg-zinc-800 rounded-full transition-transform`}
-                />
-            </Switch>
-          ]
-        )
-      default:
-        return <></>
-    }
   }
   
   return (
@@ -122,7 +90,7 @@ export const NewReport: FC<Props> = () => {
       <div className='flex flex-col justify-center text-center items-center'>
         {/* Template select drop down */}
         <div className="ring-2 ring-zinc-400 rounded-md px-2 py-1 w-64">
-          <Listbox value={selectedTemplate} onChange={setTemplate}>
+          <Listbox value={newReport} onChange={setTemplate}>
             {
               ({open}) => (
                 <>
@@ -167,21 +135,7 @@ export const NewReport: FC<Props> = () => {
         {
           selectedTemplate && 
           <>
-            <div className="flex text-md mt-4 w-full justify-between">
-              <p className='md:basis-1/3 md:w-64 mr-4'>Report Name</p>
-              <input className='grow input truncate' type="text" placeholder={reportName} onChange={(event)=>{setReportName(event.target.value)}} />
-            </div>
-            {
-              selectedTemplate.fields.map((field, i)=>{
-                let fieldContent = getFieldContent (field, i)
-                return (
-                  <div className="flex text-md mt-4 w-full justify-between" key={i}>
-                    <div className="md:basis-1/3 md:w-64 mr-4">{fieldContent[0]}</div>
-                    <div className='grow'>{fieldContent[1]}</div>
-                  </div>
-                )
-              })
-            }
+            <FieldsReadWrite report={newReport} setReportCallback={setNewReport}/>
             <button className="button mt-4" onClick={createReport}>Create Report</button>
           </>
         }

@@ -3,6 +3,15 @@ import { Switch } from '@headlessui/react'
 
 type Props = { report, setReportCallback }
 
+/**
+ * 
+ * WORKING ON GETTING THIS THING TO RENDER CORRECTLY.
+ * STATE MANAGEMENT AND CALLBACKS NEED TO BE LOOKED AT MORE.
+ * ALSO TAKE A LOOK AT THE NEW REPORT PAGE TO SEE IF WE CAN USE THIS COMPONENT
+ * THERE AS WELL.
+ * 
+ */
+
 export const FieldsReadWrite: FC<Props> = ({ report, setReportCallback }: Props) => {
 
   function handleFieldValues (value: any, index) {
