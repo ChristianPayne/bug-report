@@ -57,6 +57,10 @@ export const Report: FC<Props> = () => {
     })
     navigate('/reports');
   }
+
+  function cancel () {
+    navigate('/reports')
+  }
   
   return (
     <>
@@ -66,7 +70,7 @@ export const Report: FC<Props> = () => {
         <>
           <FieldsReadWrite report={report} setReportCallback={setReport}/>
           <div className='flex justify-end mt-4'>
-            <button className="button">Cancel</button>
+            <button className="button" onClick={cancel}>Cancel</button>
             <button className="button" onClick={saveReport}>Save</button>
           </div>
         </> ||
