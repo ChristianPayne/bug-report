@@ -30,6 +30,16 @@ export const reportReducer = (state: ReportState = initialState, action: Action)
       return {
         reports: [...state.reports, ...action.payload]
       }
+    case "REPLACE_REPORT":
+      return {
+        reports: state.reports.map((report)=>{
+          if(report.id === action.payload.id) {
+            return action.payload
+          } else {
+            return report
+          }
+        })
+      }
     case "CLEAR_REPORTS":
       return {
         reports: []

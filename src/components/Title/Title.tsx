@@ -15,7 +15,7 @@ export const Title: FC<Props> = (props: Props) => {
       type: "SET_PAGE",
       payload: props.title
     })
-  },[])
+  },[props])
 
   function toggleSidebar () {
     dispatch({
