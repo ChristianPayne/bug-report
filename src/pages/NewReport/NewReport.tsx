@@ -23,14 +23,7 @@ export const NewReport: FC<Props> = () => {
   let [reportName, setReportName] = useState('Untitled Report');
   
   // Get all templates from db
-  let [templates, setTemplates] = useState(null)
-
-  
-
-
-  // const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
-
-
+  let [templates, setTemplates] = useState(null);
   const [selectedTemplate, setSelectedTemplate] = useState<ReportTemplate>(null)
 
   useEffect(()=>{
@@ -40,15 +33,10 @@ export const NewReport: FC<Props> = () => {
   },[user])
   
   function loadTemplates () {
-    fetch('/api/getTemplates', {
-      method: "GET",
-      headers: {userId: user?.sub}
-    }).then(result => {
-      result.json().then(data => {
-        console.log(data);
-        setTemplates(data)
-      })
-    })
+    bugReportDatabase.getAllReportTemplatesByUserId(user?.sub).then(templates => {
+      setTemplates(templates)
+      setIsLoading(false)
+    });
   }
 
   async function createReport () {

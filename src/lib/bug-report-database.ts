@@ -50,7 +50,7 @@ export async function getReportById (id: string) : Promise<Report> {
 }
 export async function getAllReportsByUserId (userId: string) : Promise<Report[]> {
   let reports = await queryDocuments(reportsTable, [where("userId", "==", userId)]);
-  return reports as Array<Report>
+  return reports as Array<Report>;
 }
 export async function createReport (report: Report) : Promise<Report> {
   let reportObj: Report = await addDocument(reportsTable, report) as Report;
@@ -58,20 +58,29 @@ export async function createReport (report: Report) : Promise<Report> {
 }
 export async function updateReport (report: Report) : Promise<Report> {
   await updateDocument(reportsTable, report.id, report);
-  return report as Report
+  return report as Report;
 }
 export async function deleteReport (report: Report) : Promise<boolean> {
   return await deleteDocument(reportsTable, report.id);
 }
 
 // Report Templates
-export function getReportTemplateById () : ReportTemplate {
+export async function getReportTemplateById (id: string) : Promise<ReportTemplate> {
+  let template = await queryDocuments(reportTemplatesTable, [where('id', '==', id), limit(1)]);
+  return template[0] as ReportTemplate;
 }
-export function getAllReportTemplatesByUserId () : Array<ReportTemplate> {
+export async function getAllReportTemplatesByUserId (userId: string) : Promise<ReportTemplate[]> {
+  let templates = await queryDocuments(reportTemplatesTable, [where('userId', '==', userId)]);
+  return templates as Array<ReportTemplate>;
 }
-export function createReportTemplate () : ReportTemplate {
+export async function createReportTemplate (template: ReportTemplate) : Promise<ReportTemplate> {
+  let templateObj: ReportTemplate = await addDocument(reportTemplatesTable, template) as ReportTemplate;
+  return templateObj;
 }
-export function updateReportTemplate () : ReportTemplate {
+export async function updateReportTemplate (template: ReportTemplate) : Promise<ReportTemplate> {
+  await updateDocument(reportTemplatesTable, template.id, template);
+  return template as ReportTemplate;
 }
-export function deleteReportTemplate () : string {
+export async function deleteReportTemplate (template: ReportTemplate) : Promise<boolean> {
+  return await deleteDocument(reportTemplatesTable, template.id);
 }
