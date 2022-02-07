@@ -1,6 +1,7 @@
 import { Report } from "../lib/types";
 export interface ReportState {
   reports: Array<Report>
+  reportsLoaded: boolean
 }
 
 type Action = {
@@ -9,11 +10,17 @@ type Action = {
 }
 
 const initialState = {
-  reports: []
+  reports: [],
+  reportsLoaded: false
 }
 
 export const reportReducer = (state: ReportState = initialState, action: Action) => {
   switch (action.type) {
+    case "REPORTS_LOADED":
+      return {
+        ...state,
+        reportsLoaded: action.payload,
+      }
     case "ADD_REPORT":
       console.log("ADD_REPORT: ", action.payload);
       return {

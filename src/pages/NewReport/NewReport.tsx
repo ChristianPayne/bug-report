@@ -86,7 +86,7 @@ export const NewReport: FC<Props> = () => {
 
   function getFieldContent (field, index) {
     switch (field.type) {
-      case "string":
+      case "text":
         return (
           [
             // Index 0 is the name

@@ -81,7 +81,7 @@ export async function getDocumentByRef (ref: DocumentReference) : Promise<Object
 export async function queryDocuments (collection: string, query: Array<QueryConstraint>) : Promise<Object[]> {
   const q = fire_query(collectionRef(collection), ...query);
   const querySnapshot = await getDocs(q);
-  console.log(querySnapshot);
+  // console.log(querySnapshot);
   
   let dataArr = []
   querySnapshot.forEach((doc) => {

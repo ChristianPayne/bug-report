@@ -50,13 +50,6 @@ export const Reports: FC<Props> = () => {
   } 
 
   async function deleteReport (report: Report) {
-    // console.warn(`Delete Report not implemented. Delete report ${id}`);
-    // fetch('/api/deleteReport', {
-    //   method: "POST",
-    //   body: JSON.stringify({id})
-    // }).then(result => {
-    //   console.log(result);
-    // })
     let result = await bugReportDatabase.deleteReport(report)
     console.log("Deleted Report: ", result);
     if(result) {
