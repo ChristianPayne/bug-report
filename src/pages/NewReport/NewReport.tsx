@@ -40,7 +40,6 @@ export const NewReport: FC<Props> = () => {
   }
 
   async function createReport () {
-    console.log("Create Report");
     // Create Report object from template.
     let newReport: Report = {
       id: `Report|${uuid()}`,
@@ -55,10 +54,7 @@ export const NewReport: FC<Props> = () => {
           value: field.value
         }
       }),
-      // fields: selectedTemplate.fields.map(field=> {return {...field, value: JSON.stringify(field.value)}}),
     }
-    console.log(newReport);
-    
     let createdReport = await bugReportDatabase.createReport(newReport)
 
     console.log("Created Report: ", createdReport);

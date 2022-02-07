@@ -6,6 +6,8 @@ import { Title } from '../../components/Title'
 import { ReportState } from '../../store/reportReducer'
 import { RootState } from '../../store/store'
 import { TrashIcon } from '@heroicons/react/solid'
+import * as bugReportDatabase from '../../lib/bug-report-database';
+import { Report } from '../../lib/types'
 
 
 type Props = { }
@@ -30,21 +32,15 @@ export const Reports: FC<Props> = () => {
         type: "CLEAR_REPORTS"
       })
       // Call the backend to get reports, passing our id
-      fetch('/api/getReports', {
-        method: "GET",
-        headers: {userId: user?.sub}
-      }).then(result => {
-        result.json().then(data => {
-          console.log(data);
-          
-          // Update the store with the reports
-          dispatch({
-            type: "ADD_REPORTS",
-            payload: data
-          })
-          setIsLoading(false);
+      bugReportDatabase.getAllReportsByUserId(user.sub).then(reports => {
+        console.log("Reports: ", reports);
+        // Update the store with the reports
+        dispatch({
+          type: "ADD_REPORTS",
+          payload: reports
         })
-      })
+        setIsLoading(false);
+      });
     }
   },[user])
 
@@ -53,15 +49,23 @@ export const Reports: FC<Props> = () => {
     navigate(`${id}`)
   } 
 
-  function deleteReport (id: string) {
+  async function deleteReport (report: Report) {
     // console.warn(`Delete Report not implemented. Delete report ${id}`);
-    fetch('/api/deleteReport', {
-      method: "POST",
-      body: JSON.stringify({id})
-    }).then(result => {
-      console.log(result);
-      
-    })
+    // fetch('/api/deleteReport', {
+    //   method: "POST",
+    //   body: JSON.stringify({id})
+    // }).then(result => {
+    //   console.log(result);
+    // })
+    let result = await bugReportDatabase.deleteReport(report)
+    console.log("Deleted Report: ", result);
+    if(result) {
+      dispatch({
+        type: "DELETE_REPORT",
+        payload: report
+      })
+    }
+    
   }
 
   return (
@@ -93,7 +97,7 @@ export const Reports: FC<Props> = () => {
                     })
                   }
                 </button>
-                <button className='w-8 flex-none ml-4 p-1 align-middle' onClick={() => deleteReport(item.id)}>
+                <button className='w-8 flex-none ml-4 p-1 align-middle' onClick={() => deleteReport(item)}>
                   <TrashIcon />
                 </button>
               </div>
