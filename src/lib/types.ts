@@ -7,7 +7,7 @@ export type User = {
 export type Report = {
   id: string
   userId: string
-  date: string
+  date: number
   name: string
   fields: Array<ReportField>
 }

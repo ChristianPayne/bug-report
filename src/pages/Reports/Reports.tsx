@@ -18,7 +18,7 @@ export const Reports: FC<Props> = () => {
   let [isLoading, setIsLoading] = useState(true)
   let {isAuthenticated, logout, user} = useAuth0();
   let reportFieldsToShow = [
-    "id","name"
+    "date","name"
   ]
   const reports = useSelector<RootState, ReportState["reports"]>((state) => state.reports.reports)
   
@@ -82,7 +82,10 @@ export const Reports: FC<Props> = () => {
                       return(
                         <Fragment key={`${item}|${key}|${i}`}>
                           <div className='flex justify-center w-full'>
-                            <p>{item[key]}</p>
+                            {key === "date" ? 
+                              <p>{new Date(item[key]).toDateString()}</p>:
+                              <p>{item[key]}</p>
+                            }
                           </div>
                           {i == reportFieldsToShow.length - 1 ? <></> : <div className="hidden sm:block">&#124;</div>}
                         </Fragment>

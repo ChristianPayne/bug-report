@@ -1,10 +1,10 @@
 import { MenuIcon } from '@heroicons/react/solid';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../store/appReducer';
 import { RootState } from '../../store/store';
 
-type Props = { title: string }
+type Props = { title: string, rightIcon?: ReactElement }
 
 export const Title: FC<Props> = (props: Props) => {
   let dispatch = useDispatch()
@@ -29,6 +29,7 @@ export const Title: FC<Props> = (props: Props) => {
       </button>
       <h1 className='grow text-xl sm:text-2xl font-montserrat text-center'>{pageTitle}</h1>
       <div className="flex-none w-8">
+        {props.rightIcon ?? props.rightIcon}
       </div>
     </div>
   )

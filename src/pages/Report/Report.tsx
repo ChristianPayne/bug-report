@@ -8,6 +8,7 @@ import { RootState } from '../../store/store'
 import { getReportById, getAllReportsByUserId, updateReport } from "../../lib/bug-report-database";
 import * as types from '../../lib/types'
 import { FieldsReadWrite } from '../../components/FieldsReadWrite'
+import { PencilIcon, XIcon } from '@heroicons/react/solid'
 
 type Props = { }
 
@@ -21,7 +22,8 @@ export const Report: FC<Props> = () => {
 
   // State for a single report
   let [report, setReport] = useState<types.Report>(undefined);
-  let [isLoading, setIsLoading] = useState<boolean>(true)
+  let [isLoading, setIsLoading] = useState<boolean>(true);
+  let [editMode, setEditMode] = useState<boolean>(false);
 
   async function loadReport () {
     let foundReport = reports.find(report => report.id === id)
@@ -64,15 +66,27 @@ export const Report: FC<Props> = () => {
   
   return (
     <>
-      <Title title={report ? report.name : "Report"}/>
+      <Title title={report ? report.name : "Report"} rightIcon={
+        <div className='p-1 cursor-pointer' onClick={()=> setEditMode(!editMode)}>
+          {editMode ? 
+            <XIcon/> :
+            <PencilIcon/> 
+          }
+        </div>
+      }/>
       
       {(!isLoading && report) && 
         <>
-          <FieldsReadWrite report={report} setReportCallback={setReport}/>
-          <div className='flex justify-end mt-4'>
-            <button className="button" onClick={cancel}>Cancel</button>
-            <button className="button" onClick={saveReport}>Save</button>
-          </div>
+          {editMode ? 
+            <>
+              <FieldsReadWrite report={report} setReportCallback={setReport}/> 
+              <div className='flex justify-end mt-4'>
+                <button className="button mr-2" onClick={cancel}>Cancel</button>
+                <button className="button" onClick={saveReport}>Save</button>
+              </div>
+            </>:
+            <p>Not in edit mode.</p>
+          }
         </> ||
         <p>Loading...</p>
       }

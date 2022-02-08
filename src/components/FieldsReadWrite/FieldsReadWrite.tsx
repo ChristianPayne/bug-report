@@ -28,7 +28,7 @@ export const FieldsReadWrite: FC<Props> = ({ report, setReportCallback }: Props)
             // Index 0 is the name
             <p className="">{field.name}</p>,
             // Index 1 is the content
-            <textarea className="bg-zinc-900 border rounded-md border-zinc-400 scrollbar w-full" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(event.target.value, index)}} value={field.value}/>
+            <textarea className="bg-zinc-900 border rounded-md border-zinc-400 scrollbar w-full p-2" placeholder='Enter text here...' onChange={(event)=>{handleFieldValues(event.target.value, index)}} value={field.value}/>
           ]
         )
       case 'switch':

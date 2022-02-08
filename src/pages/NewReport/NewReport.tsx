@@ -50,7 +50,7 @@ export const NewReport: FC<Props> = () => {
       id: `Report|${uuid()}`,
       name: newReport.name,
       userId: user.sub,
-      date: Date.now().toString(),
+      date: Date.now(),
       fields: newReport.fields.map(field=> {
         return {
           id: `Field|${uuid()}`,
