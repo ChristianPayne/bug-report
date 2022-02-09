@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../store/appReducer';
 import { RootState } from '../../store/store';
 
-type Props = { title: string, rightIcon?: ReactElement }
+type Props = { title: string, rightIcon?: ReactElement, subtitle?: string}
 
 export const Title: FC<Props> = (props: Props) => {
   let dispatch = useDispatch()
@@ -27,7 +27,11 @@ export const Title: FC<Props> = (props: Props) => {
       <button className="flex-none button-no-border w-8 text-zinc-400" onClick={toggleSidebar}>
         <MenuIcon />
       </button>
-      <h1 className='grow text-xl sm:text-2xl font-montserrat text-center'>{pageTitle}</h1>
+      <div className='grow font-montserrat text-center'>
+        <h1 className='text-xl sm:text-2xl'>{pageTitle}</h1>
+        {props.subtitle && <h2 className='text-md sm:text-lg'>{props.subtitle}</h2>}
+      </div>
+
       <div className="flex-none w-8">
         {props.rightIcon ?? props.rightIcon}
       </div>

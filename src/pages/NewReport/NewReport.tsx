@@ -10,7 +10,7 @@ import { ReportState } from '../../store/reportReducer'
 import { RootState } from '../../store/store'
 import { v4 as uuid } from "uuid";
 import * as bugReportDatabase from '../../lib/bug-report-database';
-import { Report, ReportTemplate } from '../../lib/types'
+import { FieldType, Report, ReportTemplate } from '../../lib/types'
 import { FieldsReadWrite } from '../../components/FieldsReadWrite'
 
 type Props = { }
@@ -23,7 +23,7 @@ export const NewReport: FC<Props> = () => {
   
   // Get all templates from db
   let [templates, setTemplates] = useState(null);
-  const [selectedTemplate, setSelectedTemplate] = useState(null)
+  const [selectedTemplate, setSelectedTemplate] = useState<ReportTemplate>(null)
   const [newReport, setNewReport] = useState<ReportTemplate>({
     name: "Untitled Report",
     userId: "NoUserId",
@@ -51,6 +51,7 @@ export const NewReport: FC<Props> = () => {
       name: newReport.name,
       userId: user.sub,
       date: Date.now(),
+      reportTemplate: selectedTemplate.id,
       fields: newReport.fields.map(field=> {
         return {
           id: `Field|${uuid()}`,
@@ -135,7 +136,7 @@ export const NewReport: FC<Props> = () => {
         {
           selectedTemplate && 
           <>
-            <FieldsReadWrite report={newReport} setReportCallback={setNewReport}/>
+            <FieldsReadWrite report={newReport as Report} setReportCallback={setNewReport}/>
             <button className="button mt-4" onClick={createReport}>Create Report</button>
           </>
         }

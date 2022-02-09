@@ -9,6 +9,7 @@ export type Report = {
   userId: string
   date: number
   name: string
+  reportTemplate: string
   fields: Array<ReportField>
 }
 
@@ -21,7 +22,12 @@ export type ReportTemplate = {
 
 export type ReportField = {
   id: string
-  type: string
+  type: FieldType
   name: string
   value: string
+}
+
+export enum FieldType {
+  text = "text",
+  switch = "switch"
 }

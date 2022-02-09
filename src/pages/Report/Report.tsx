@@ -9,6 +9,7 @@ import { getReportById, getAllReportsByUserId, updateReport } from "../../lib/bu
 import * as types from '../../lib/types'
 import { FieldsReadWrite } from '../../components/FieldsReadWrite'
 import { PencilIcon, XIcon } from '@heroicons/react/solid'
+import { FieldsRead } from '../../components/FieldsRead'
 
 type Props = { }
 
@@ -61,31 +62,37 @@ export const Report: FC<Props> = () => {
   }
 
   function cancel () {
-    navigate('/reports')
+    setEditMode(false)
+    // navigate('/reports')
   }
   
   return (
     <>
-      <Title title={report ? report.name : "Report"} rightIcon={
-        <div className='p-1 cursor-pointer' onClick={()=> setEditMode(!editMode)}>
-          {editMode ? 
-            <XIcon/> :
-            <PencilIcon/> 
-          }
-        </div>
+      <Title 
+        title={report ? report.name : "Report"} 
+        subtitle={report?.reportTemplate ? `Generated from: ${report.reportTemplate}` : ""} 
+        rightIcon={
+          <div className='p-1 cursor-pointer' onClick={()=> setEditMode(!editMode)}>
+            {editMode ? 
+              <XIcon/> :
+              <PencilIcon/> 
+            }
+          </div>
       }/>
       
       {(!isLoading && report) && 
         <>
           {editMode ? 
             <>
-              <FieldsReadWrite report={report} setReportCallback={setReport}/> 
+              <FieldsReadWrite report={{...report}} setReportCallback={setReport}/> 
               <div className='flex justify-end mt-4'>
                 <button className="button mr-2" onClick={cancel}>Cancel</button>
                 <button className="button" onClick={saveReport}>Save</button>
               </div>
             </>:
-            <p>Not in edit mode.</p>
+            <>
+              <FieldsRead report={{...report}} setReportCallback={setReport}/>
+            </>
           }
         </> ||
         <p>Loading...</p>
