@@ -72,7 +72,7 @@ export const Reports: FC<Props> = () => {
       }
       {
         !isLoading && (
-          reports.map((item, i)=>{
+          reports.sort((a: Report, b: Report) => b.date - a.date).map((item, i)=>{
             return (
               <div key={item.id + i}  className='flex w-full border border-zinc-100 rounded-md mt-3'>
                 <button className='grow text-left p-2 overflow-auto sm:flex items-center justify-between md:justify-evenly'

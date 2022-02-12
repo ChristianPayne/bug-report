@@ -1,4 +1,4 @@
-import { DocumentReference, limit, where } from "firebase/firestore";
+import { limit, where } from "firebase/firestore";
 import { 
   addDocument,
   getDocument,
@@ -48,8 +48,8 @@ export async function getReportById (id: string) : Promise<Report> {
   let report = await queryDocuments(reportsTable, [where("id", "==", id), limit(1)]);
   return report[0] as Report;
 }
-export async function getAllReportsByUserId (userId: string) : Promise<Report[]> {
-  let reports = await queryDocuments(reportsTable, [where("userId", "==", userId)]);
+export async function getAllReportsByUserId (userId: string, size: number = 25) : Promise<Report[]> {
+  let reports = await queryDocuments(reportsTable, [where("userId", "==", userId), limit(size)]);
   return reports as Array<Report>;
 }
 export async function createReport (report: Report) : Promise<Report> {
