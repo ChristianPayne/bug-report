@@ -24,7 +24,7 @@ export const Reports: FC<Props> = () => {
   
   // Get Reports after user has been retrieved.
   useEffect(()=>{
-    user && console.log(user);
+    // user && console.log(user);
     if(user){
       // Clear reports before pulling again.
       reports && 
@@ -33,7 +33,7 @@ export const Reports: FC<Props> = () => {
       })
       // Call the backend to get reports, passing our id
       bugReportDatabase.getAllReportsByUserId(user.sub).then(reports => {
-        console.log("Reports: ", reports);
+        // console.log("Reports: ", reports);
         // Update the store with the reports
         dispatch({
           type: "ADD_REPORTS",
