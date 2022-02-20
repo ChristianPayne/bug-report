@@ -32,7 +32,7 @@ const firebaseConfig : FirebaseOptions = {
 // Initialize Firebase
 initializeApp(firebaseConfig);
 const db = getFirestore()
-console.log("DB initialized: ", db);
+console.log("🔥 Database Initialized");
 
 function collectionRef (collection: string) : CollectionReference {
   switch (collection) {
@@ -67,7 +67,7 @@ export async function getDocument(collection: string, path: string) : Promise<Ob
   const docRef: DocumentReference = documentRef(collection, path);
   const docSnap: DocumentSnapshot = await getDoc(docRef);
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
+    // console.log("Document data:", docSnap.data());
     return {id: docRef.id, ...docSnap.data()}
   } else {
     throw new Error("No document found!")
@@ -86,7 +86,7 @@ export async function getDocumentByRef (ref: DocumentReference) : Promise<Object
 export async function queryDocuments (collection: string, query: Array<QueryConstraint>) : Promise<Object[]> {
   const q = fire_query(collectionRef(collection), ...query);
   const querySnapshot = await getDocs(q);
-  console.log(querySnapshot);
+  // console.log(querySnapshot);
   
   let dataArr = []
   querySnapshot.forEach((doc) => {

@@ -24,12 +24,15 @@ export const Title: FC<Props> = (props: Props) => {
   }
   return (
     <div className='flex justify-between items-center mb-4'>
-      <button className="flex-none button-no-border w-8 text-zinc-400" onClick={toggleSidebar}>
+      <button className="flex-none w-8 text-zinc-400" onClick={toggleSidebar}>
         <MenuIcon />
       </button>
       <div className='grow font-montserrat text-center'>
         <h1 className='text-xl sm:text-2xl'>{pageTitle}</h1>
-        {props.subtitle && <h2 className='text-md sm:text-lg'>{props.subtitle}</h2>}
+        {
+          props.subtitle && 
+          <h2 className='text-md sm:text-lg'>{props.subtitle}</h2>
+        }
       </div>
 
       <div className="flex-none w-8">
