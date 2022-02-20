@@ -40,7 +40,7 @@ export const Sidebar: FC<Props> = () => {
           <button className='button' onClick={() => logout({ returnTo: window.location.origin })}>
             Log Out
           </button>}
-          <p className="text-xs mt-2">Designed by <a href="https://github.com/ChristianPayne" target="_blank">Christian Payne</a></p>
+          <p className="text-xs mt-2">Built by <a href="https://github.com/ChristianPayne" target="_blank">Christian Payne</a></p>
         </div>
       </div>
     </>

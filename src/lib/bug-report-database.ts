@@ -1,24 +1,25 @@
 import { limit, where } from "firebase/firestore";
 import { 
   addDocument,
-  getDocument,
-  getDocuments,
   updateDocument,
   deleteDocument,
-  getDocumentByRef,
   queryDocuments,
   getCollectionRoot
 } from "./firebase";
 
 import { 
   Report,
+  ReportField,
   ReportTemplate,
   User 
 } from "./types";
 
-let usersTable = 'users';
-let reportsTable = 'reports';
-let reportTemplatesTable = 'reportTemplates';
+let [usersTable, reportsTable, reportTemplatesTable, fieldTable] = [
+  'users',
+  'reports',
+  'reportTemplates',
+  'fields'
+]
 
 export async function getRoot() {
   return await getCollectionRoot("users")
@@ -36,7 +37,7 @@ export async function createUser (user: User) : Promise<User> {
   return userObj;
 }
 export async function updateUser (user: User) : Promise<User> {
-  await updateDocument(usersTable, user.id, user)
+  await updateDocument(usersTable, user.id, user);
   return user as User
 }
 export async function deleteUser (user: User) : Promise<boolean> {
@@ -81,6 +82,22 @@ export async function updateReportTemplate (template: ReportTemplate) : Promise<
   await updateDocument(reportTemplatesTable, template.id, template);
   return template as ReportTemplate;
 }
+
+/**
+ * @param template Which Report Template to delete from the database.
+ * @returns Whether or not it was deleted.
+ */
 export async function deleteReportTemplate (template: ReportTemplate) : Promise<boolean> {
   return await deleteDocument(reportTemplatesTable, template.id);
+}
+
+// Report Fields
+/**
+ * @returns All the fields that are active in the database.
+ */
+export async function getAllFields(): Promise<ReportField[]> {
+  let fields = await queryDocuments(fieldTable, [where("active", "==", true)]);
+  console.log(fields);
+  fields = fields ?? [];
+  return fields as ReportField[]
 }

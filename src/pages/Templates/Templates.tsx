@@ -1,12 +1,12 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import React, { FC, Fragment, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { FC, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ReportState } from '../../store/reportReducer'
-import { RootState } from '../../store/store'
 
 import { Title } from "../../components/Title";
-import { Dropdown } from '../../components/Dropdown'
+import { Menu } from '../../components/Menu'
+import { getAllFields } from "../../lib/bug-report-database";
+
 
 type Props = { }
 
@@ -14,23 +14,34 @@ export const Templates: FC<Props> = () => {
   let navigate = useNavigate()
   let dispatch = useDispatch()
   let {isAuthenticated, logout, user} = useAuth0();
+  let [templateFields, setTemplateFields] = useState([])
+  
+
+  useEffect(()=>{
+    getAllFields().then(fields => {
+      setTemplateFields(fields);
+    })
+  }, []);
+
+  function addNewField (field) {
+    console.log('🌾 Field:', field);
+    
+  }
   
   return (
     <>
       <Title title="Templates"/>
-      <div className="flex flex-col h-fit text-center">
-
-
-        <div className="flex-none w-64">
-          <Dropdown placeholder='New Field' options={[
-            {name: "Text Box"},
-            {name: "Switch Box"}
-          ]} onSelect={()=>{}}/>
-        </div>
-        <div className='flex justify-end mt-4'>
+      <div className="flex flex-col h-fit text-center items-center">
+        {/* <div className='flex justify-end mt-4'>
           <button className="button mr-2" onClick={()=>{}}>Cancel</button>
           <button className="button" onClick={()=>{}}>Save</button>
-        </div>
+        </div> */}
+        {
+          templateFields && 
+          <div className='w-64'>
+            <Menu buttonName='New Field' items={templateFields} callback={addNewField}/>
+          </div>
+        }
       </div>
     </>
   )

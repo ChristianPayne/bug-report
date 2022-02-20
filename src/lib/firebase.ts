@@ -32,6 +32,7 @@ const firebaseConfig : FirebaseOptions = {
 // Initialize Firebase
 initializeApp(firebaseConfig);
 const db = getFirestore()
+console.log("DB initialized: ", db);
 
 function collectionRef (collection: string) : CollectionReference {
   switch (collection) {
@@ -40,7 +41,11 @@ function collectionRef (collection: string) : CollectionReference {
     case "reports":
       return fire_collection(db, "reports");
     case "reportTemplates":
-      return fire_collection(db, "reportTemplates")
+      return fire_collection(db, "reportTemplates");
+    case "fields":
+      return fire_collection(db, "fields");
+    default:
+      console.error("This collection was not set up correctly: ", collection);
   }
 }
 function documentRef (collection: string, path: string = "") : DocumentReference {
@@ -81,7 +86,7 @@ export async function getDocumentByRef (ref: DocumentReference) : Promise<Object
 export async function queryDocuments (collection: string, query: Array<QueryConstraint>) : Promise<Object[]> {
   const q = fire_query(collectionRef(collection), ...query);
   const querySnapshot = await getDocs(q);
-  // console.log(querySnapshot);
+  console.log(querySnapshot);
   
   let dataArr = []
   querySnapshot.forEach((doc) => {
