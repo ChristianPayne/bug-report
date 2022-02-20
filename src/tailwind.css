@@ -26,7 +26,7 @@
     @apply appearance-none bg-zinc-900 rounded-md border-zinc-400 border-2 px-2 py-1 hover:border-zinc-100
   }
 
-  .button-bo-border {
+  .button-no-border {
     @apply appearance-none bg-zinc-900 px-2 py-1
   }
 

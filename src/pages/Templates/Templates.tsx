@@ -1,8 +1,4 @@
-import { useAuth0 } from '@auth0/auth0-react'
-import React, { FC, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-
+import React, { FC, useEffect, useState } from 'react';
 import { Title } from "../../components/Title";
 import { Menu } from '../../components/Menu'
 import { getAllFields } from "../../lib/bug-report-database";
@@ -11,12 +7,8 @@ import { getAllFields } from "../../lib/bug-report-database";
 type Props = { }
 
 export const Templates: FC<Props> = () => {
-  let navigate = useNavigate()
-  let dispatch = useDispatch()
-  let {isAuthenticated, logout, user} = useAuth0();
   let [templateFields, setTemplateFields] = useState([])
   
-
   useEffect(()=>{
     getAllFields().then(fields => {
       setTemplateFields(fields);
